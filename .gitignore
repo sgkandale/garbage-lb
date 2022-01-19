@@ -1,2 +1,5 @@
 *.exe
 *.
+
+ui_src/build
+ui_src/node_modules

@@ -17,7 +17,7 @@ func parseFlags() string {
 
 var configFilePath = parseFlags()
 
-func parseConfig() *Config {
+func parseConfig() *ConfigStruct {
 
 	log.Println("parsing config file")
 
@@ -30,7 +30,7 @@ func parseConfig() *Config {
 		log.Fatal("error parsing config file : ", err)
 	}
 
-	var readConfig Config
+	var readConfig ConfigStruct
 
 	err = viper.Unmarshal(&readConfig)
 	if err != nil {

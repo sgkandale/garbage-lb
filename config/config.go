@@ -7,6 +7,12 @@ type serverConfig struct {
 	KeyPath  string
 }
 
-type Config struct {
-	Server serverConfig
+type adminPortal struct {
+	// Enabled bool
+	Port string
+}
+
+type ConfigStruct struct {
+	Server      serverConfig
+	AdminPortal adminPortal
 }

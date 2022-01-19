@@ -1,5 +1,12 @@
 package main
 
+import (
+	"log"
+	"simplelb/ui"
+)
+
 func main() {
-	println("Hello, world.")
+	log.Println("Starting SimpleLB...")
+
+	ui.ServeWebUI()
 }
