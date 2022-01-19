@@ -39,7 +39,7 @@ func parseConfig() *Config {
 
 	log.Println("config file parsed successfully")
 
-	return readConfig
+	return &readConfig
 }
 
 var parsedConfig = parseConfig()
