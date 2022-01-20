@@ -1,5 +1,24 @@
+# Go builds
 *.exe
 *.
 
-ui_src/build
+# From UI src
+
+# dependencies
 ui_src/node_modules
+ui_src/.pnp
+ui_src/.pnp.js
+# testing
+ui_src/coverage
+# production
+ui_src/build
+# misc
+ui_src/.DS_Store
+ui_src/.env.local
+ui_src/.env.development.local
+ui_src/.env.test.local
+ui_src/.env.production.local
+# logs
+ui_src/npm-debug.log*
+ui_src/yarn-debug.log*
+ui_src/yarn-error.log*
