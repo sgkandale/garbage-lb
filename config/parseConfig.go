@@ -3,6 +3,7 @@ package config
 import (
 	"flag"
 	"log"
+	"strings"
 
 	"github.com/spf13/viper"
 )
@@ -19,7 +20,7 @@ var configFilePath = parseFlags()
 
 func parseConfig() *ConfigStruct {
 
-	log.Println("parsing config file")
+	var readConfig ConfigStruct
 
 	viper.SetConfigName("config")       // name of config file
 	viper.SetConfigType("yaml")         // extension of config file
@@ -27,10 +28,14 @@ func parseConfig() *ConfigStruct {
 	err := viper.ReadInConfig()         // Find and read the config file
 
 	if err != nil {
+		if strings.Contains(err.Error(), "Not Found") {
+			log.Println("Config file not found. Using default values.")
+			return &readConfig
+		}
 		log.Fatal("error parsing config file : ", err)
 	}
 
-	var readConfig ConfigStruct
+	log.Println("parsing config file")
 
 	err = viper.Unmarshal(&readConfig)
 	if err != nil {

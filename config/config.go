@@ -1,18 +1,18 @@
 package config
 
-type serverConfig struct {
-	Port     string
-	TLS      bool
-	CertPath string
-	KeyPath  string
+type Listener struct {
+	Port       string
+	TLS        bool
+	CertPath   string
+	KeyPath    string
+	DomainName string
 }
 
-type adminPortal struct {
-	// Enabled bool
+type Admin struct {
 	Port string
 }
 
 type ConfigStruct struct {
-	Server      serverConfig
-	AdminPortal adminPortal
+	Admin     Admin
+	Listeners []Listener
 }

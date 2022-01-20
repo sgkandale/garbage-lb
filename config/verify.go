@@ -1,28 +1,22 @@
 package config
 
-import "log"
+import (
+	"log"
+
+	"simplelb/constants"
+)
 
 func verify(config *ConfigStruct) *ConfigStruct {
 
-	// Server Check
-	if config.Server.Port == "" {
-		config.Server.Port = "8080"
-	}
-	if config.Server.TLS {
-		if config.Server.CertPath == "" {
-			log.Fatal("TLS is enabled but no cert path is set")
-		}
-		if config.Server.KeyPath == "" {
-			log.Fatal("TLS is enabled but no key path is set")
-		}
+	// Admin Checks
+	if config.Admin.Port == "" {
+		config.Admin.Port = constants.AdminPort
 	}
 
-	// AdminPortal Check
-	// if config.AdminPortal.Enabled {
-	if config.AdminPortal.Port == "" {
-		config.AdminPortal.Port = "8081"
+	// Listener Checks
+	if len(config.Listeners) == 0 {
+		log.Println("No listeners defined.")
 	}
-	// }
 
 	return config
 }

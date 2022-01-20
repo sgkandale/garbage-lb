@@ -23,11 +23,11 @@ func ServeWebUI() {
 	log.Println(
 		fmt.Sprintf(
 			"UI Server starting at port %s...",
-			config.Config.AdminPortal.Port,
+			config.Config.Admin.Port,
 		),
 	)
 
-	log.Fatal(http.ListenAndServe(":"+config.Config.AdminPortal.Port, nil))
+	log.Fatal(http.ListenAndServe(":"+config.Config.Admin.Port, nil))
 }
 
 func serveAppHandler(app *rice.Box) http.HandlerFunc {
