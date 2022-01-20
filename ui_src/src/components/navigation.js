@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DefaultView from './defaultView/index';
-import { Dashboard } from '@mui/icons-material';
+import { Api, Dashboard, Storage } from '@mui/icons-material';
 
 export default function Navigation() {
     const [activeNav, setActiveNav] = useState(0);
@@ -15,7 +15,22 @@ export default function Navigation() {
         },
         {
             type: 'divider',
-        }
+        },
+        {
+            name: 'Listeners',
+            icon: <Api />,
+            tooltip: 'Listener Elements',
+            type: 'item',
+        },
+        {
+            name: 'Clusters',
+            icon: <Storage />,
+            tooltip: 'Backend Clusters',
+            type: 'item',
+        },
+        {
+            type: 'divider',
+        },
     ]
 
     const changeNav = (name) => {
