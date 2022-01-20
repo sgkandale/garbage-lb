@@ -3,14 +3,14 @@ package config
 import (
 	"log"
 
-	"simplelb/constants"
+	"simplelb/defaults"
 )
 
 func verify(config *ConfigStruct) *ConfigStruct {
 
 	// Admin Checks
 	if config.Admin.Port == "" {
-		config.Admin.Port = constants.AdminPort
+		config.Admin.Port = defaults.AdminPort
 	}
 
 	// Listener Checks
