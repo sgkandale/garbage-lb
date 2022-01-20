@@ -6,6 +6,8 @@ import { Api, Dashboard, PowerSettingsNew, Settings, Storage } from '@mui/icons-
 export default function Navigation() {
     const [activeNav, setActiveNav] = useState(0);
 
+    console.log("activeNav : ", activeNav)
+
     const navItems = [
         {
             name: 'Dashboard',
@@ -51,7 +53,8 @@ export default function Navigation() {
             icon: <PowerSettingsNew />,
             tooltip: 'Terminate Server',
             type: 'item',
-            color: "#F15741"
+            color: "#F15741",
+            clickHandler: () => console.log("call terminate endpoint here")
         },
     ]
 
@@ -59,7 +62,7 @@ export default function Navigation() {
         for (let i = 0; i < navItems.length; i++) {
             if (navItems[i].name === name) {
                 setActiveNav(i);
-                break;
+                return
             }
         }
         setActiveNav(-1);
@@ -68,6 +71,7 @@ export default function Navigation() {
     return <DefaultView
         navItems={navItems}
         activeNav={activeNav}
+        changeNav={changeNav}
     />
 
     // return <BrowserRouter>

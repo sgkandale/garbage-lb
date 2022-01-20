@@ -26,6 +26,15 @@ export default function Sidebar(props) {
                             <ListItem
                                 button
                                 sx={{ color: item.color ? item.color : 'default' }}
+                                onClick={
+                                    () => {
+                                        if (item.clickHandler) {
+                                            item.clickHandler()
+                                        } else {
+                                            props.changeNav(item.name)
+                                        }
+                                    }
+                                }
                             >
                                 <ListItemIcon
                                     sx={{ color: item.color ? item.color : 'inherit' }}

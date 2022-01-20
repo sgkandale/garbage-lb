@@ -11,6 +11,7 @@ export default function DefaultView(props) {
         <Sidebar
             navItems={props.navItems}
             activeNav={props.activeNav}
+            changeNav={props.changeNav}
         />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
             <Toolbar />
