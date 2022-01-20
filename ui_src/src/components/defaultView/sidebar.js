@@ -25,7 +25,14 @@ export default function Sidebar(props) {
                         return <Tooltip title={item.tooltip} placement="right" key={index}>
                             <ListItem
                                 button
-                                sx={{ color: item.color ? item.color : 'default' }}
+                                sx={{
+                                    color: item.color ?
+                                        item.color : 'grey.700',
+                                    bgcolor: props.activeNav === index ?
+                                        'primary.ultraLight' : 'none',
+                                    borderTopRightRadius: 20,
+                                    borderBottomRightRadius: 20,
+                                }}
                                 onClick={
                                     () => {
                                         if (item.clickHandler) {

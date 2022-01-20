@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DefaultView from './defaultView/index';
-import { Api, Dashboard, PowerSettingsNew, Settings, Storage } from '@mui/icons-material';
+import { Api, Dashboard as DashboardIcon, PowerSettingsNew, Settings as SettingsIcon, Speed, Storage } from '@mui/icons-material';
+import Dashboard from './dashboard'
+import Listeners from './listeners'
+import Clusters from './clusters'
+import Settings from './settings'
+import Test from './test'
 
 export default function Navigation() {
     const [activeNav, setActiveNav] = useState(0);
 
-    console.log("activeNav : ", activeNav)
-
     const navItems = [
         {
             name: 'Dashboard',
-            icon: <Dashboard />,
+            icon: <DashboardIcon />,
             tooltip: 'Dashboard',
             type: 'item',
+            renderContent: <Dashboard />
         },
         {
             type: 'divider',
@@ -23,27 +27,31 @@ export default function Navigation() {
             icon: <Api />,
             tooltip: 'Listener Elements',
             type: 'item',
+            renderContent: <Listeners />
         },
         {
             name: 'Clusters',
             icon: <Storage />,
             tooltip: 'Backend Clusters',
             type: 'item',
+            renderContent: <Clusters />
         },
         {
             type: 'divider',
         },
         {
             name: 'Settings',
-            icon: <Settings />,
+            icon: <SettingsIcon />,
             tooltip: 'Settings',
             type: 'item',
+            renderContent: <Settings />
         },
         {
             name: 'Test',
-            icon: <Settings />,
+            icon: <Speed />,
             tooltip: 'Test',
             type: 'item',
+            renderContent: <Test />
         },
         {
             type: 'divider',

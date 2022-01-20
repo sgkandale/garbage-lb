@@ -13,10 +13,12 @@ export default function DefaultView(props) {
             activeNav={props.activeNav}
             changeNav={props.changeNav}
         />
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        <Box sx={{ flexGrow: 1, p: 3 }}>
             <Toolbar />
             <main>
-
+                {
+                    props.navItems[props.activeNav].renderContent
+                }
             </main>
         </Box>
     </Box >
