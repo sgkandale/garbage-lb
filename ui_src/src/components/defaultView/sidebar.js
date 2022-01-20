@@ -23,8 +23,13 @@ export default function Sidebar(props) {
                             return <Divider key={index} style={{ marginTop: 5 }} />
                         }
                         return <Tooltip title={item.tooltip} placement="right" key={index}>
-                            <ListItem button>
-                                <ListItemIcon>
+                            <ListItem
+                                button
+                                sx={{ color: item.color ? item.color : 'default' }}
+                            >
+                                <ListItemIcon
+                                    sx={{ color: item.color ? item.color : 'inherit' }}
+                                >
                                     {item.icon}
                                 </ListItemIcon>
                                 <ListItemText primary={item.name} />
