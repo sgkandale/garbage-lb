@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"simplelb/config"
+	"garbagelb/config"
 
 	rice "github.com/GeertJohan/go.rice"
 )

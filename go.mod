@@ -1,4 +1,4 @@
-module simplelb
+module garbagelb
 
 go 1.17
 

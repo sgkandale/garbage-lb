@@ -1,5 +1,5 @@
-# simple-lb
-Simple load balancer written in Go
+# garbage-lb
+Garbage load balancer written in Go
 
 
 ### Build From Source
@@ -12,4 +12,4 @@ Simple load balancer written in Go
     go build main.go
 
 #### Append Static Files
-    rice append -i simplelb/ui --exec main.exe
+    rice append -i garbage/ui --exec main.exe

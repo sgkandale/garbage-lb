@@ -3,7 +3,7 @@ package config
 import (
 	"log"
 
-	"simplelb/defaults"
+	"garbagelb/defaults"
 )
 
 func verify(config *ConfigStruct) *ConfigStruct {

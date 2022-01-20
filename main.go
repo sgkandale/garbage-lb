@@ -1,12 +1,12 @@
 package main
 
 import (
+	"garbagelb/ui"
 	"log"
-	"simplelb/ui"
 )
 
 func main() {
-	log.Println("Starting SimpleLB...")
+	log.Println("Starting GarbageLB...")
 
 	ui.ServeWebUI()
 }
