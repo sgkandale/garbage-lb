@@ -10,7 +10,8 @@ const defaultState = {
             id: "abcd",
             listening: true
         }
-    ]
+    ],
+    clusters: [],
 }
 
 // Redux Store
