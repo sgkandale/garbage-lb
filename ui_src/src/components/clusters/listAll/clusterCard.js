@@ -26,8 +26,6 @@ export default function ClusterCard(props) {
         </Grid>
         <Typography variant="body1" color="textSecondary" sx={{ paddingLeft: 2 }}>
             <strong>Id : </strong>{props.cluster.id}<br />
-            <strong>Port : </strong>{props.cluster.port}<br />
-            <strong>Connection Type : </strong>{props.cluster.type}<br />
         </Typography>
     </Card>
 }
