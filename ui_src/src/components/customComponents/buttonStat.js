@@ -1,4 +1,4 @@
-import { ErrorOutline } from '@mui/icons-material'
+import { DoneAll, ErrorOutline } from '@mui/icons-material'
 import { CircularProgress } from '@mui/material'
 import React from 'react'
 
@@ -14,6 +14,8 @@ export default function ButtonStat(props) {
             return <>{props.zeroStat}</>
         } else if (props.stat === -1) {
             return <ErrorOutline color="error" />
+        } else if (props.stat === 1) {
+            return <DoneAll color="success" />
         } else {
             return <></>
         }

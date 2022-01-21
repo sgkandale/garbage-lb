@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 export default function ServerLoad() {
     const serverLoad = useSelector(state => state.serverLoad)
 
-    return <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', padding: 1 }}>
+    return <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', padding: 1, paddingBottom: 2 }}>
         <Typography variant="h6" >
             Server Load
         </Typography>
@@ -69,7 +69,7 @@ export default function ServerLoad() {
                     Network
                 </Typography>
                 <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 12 }}>
-                    <strong>In Use : </strong>{serverLoad.network.inUse}
+                    <strong>Total : </strong>{serverLoad.network.total}
                     <br />
                     <strong>Up : </strong>{serverLoad.network.up}
                     <br />

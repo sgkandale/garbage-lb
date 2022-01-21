@@ -15,6 +15,24 @@ const defaultState = {
         {
             name: "Some Name",
             id: "abcd",
+            type: 'Logical',
+            policy: 'RoundRobin',
+            timeout: '30',
+            endpoints: [
+                {
+                    id: "abcd",
+                    name: 'Localhost',
+                    address: "0.0.0.0",
+                    port: "8080",
+                    health: "Healthy",
+                }
+            ],
+            health: {
+                status: 'Healthy',
+                healthyCount: 1,
+                unhealthyCount: 0,
+                degradedCount: 0,
+            },
         }
     ],
     serverLoad: {
@@ -31,7 +49,7 @@ const defaultState = {
             inUsePercentage: '42 %',
         },
         network: {
-            inUse: '3 KB/s',
+            total: '3 KB/s',
             up: '2 KB/s',
             down: '1 KB/s',
         },
