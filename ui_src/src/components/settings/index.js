@@ -29,6 +29,17 @@ export default function Settings() {
         setTab(newValue);
     };
 
+    const settingsTabs = [
+        {
+            label: 'General',
+            content: <>General</>,
+        },
+        {
+            label: 'Data',
+            content: <>Data</>,
+        },
+    ]
+
     return <Box
         sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex' }}
     >
@@ -40,10 +51,22 @@ export default function Settings() {
             aria-label="settings-tabs"
             sx={{ borderRight: 1, marginLeft: 5, borderColor: 'divider' }}
         >
-            <Tab label="Item One" style={{ textTransform: 'none' }} />
+            {
+                settingsTabs.map((eachTab, index) => {
+                    return <Tab
+                        label={eachTab.label}
+                        style={{ textTransform: 'none' }}
+                        key={index}
+                    />
+                })
+            }
         </Tabs>
-        <TabPanel value={tab} index={0}>
-            Item One
-        </TabPanel>
+        {
+            settingsTabs.map((eachTab, index) => {
+                return <TabPanel value={tab} index={index}>
+                    {eachTab.content}
+                </TabPanel>
+            })
+        }
     </Box>
 }
