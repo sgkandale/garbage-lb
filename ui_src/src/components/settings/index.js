@@ -1,25 +1,6 @@
 import React, { useState } from 'react'
 import { Typography, Tab, Tabs, Box } from '@mui/material'
-
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
+import TabPanel from '../customComponents/tabpanel'
 
 
 export default function Settings() {
