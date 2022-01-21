@@ -1,5 +1,7 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { AppBar, Toolbar, Typography, Grid } from '@mui/material';
+import TopbarStatus from './topbarStatus';
+import logo from '../../statics/logo.png';
 
 export default function TopBar() {
 
@@ -9,14 +11,19 @@ export default function TopBar() {
             bgcolor: (theme) => theme.palette.page.background,
             boxShadow: 'none',
             borderBottom: 1,
-            // borderBottom: '1px solid',
             borderColor: 'grey.300',
         }}
     >
         <Toolbar>
-            <Typography variant="h6" noWrap component="div">
-                Clipped drawer
+            <img
+                src={logo}
+                alt='garbage-lb logo'
+                style={{ width: 50, height: 50, marginRight: 20 }}
+            />
+            <Typography variant="h6" noWrap color="textPrimary" sx={{ flexGrow: 1 }}>
+                Garbage-LB
             </Typography>
+            <TopbarStatus />
         </Toolbar>
-    </AppBar>
+    </AppBar >
 }

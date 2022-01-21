@@ -20,7 +20,7 @@ export default function Sidebar(props) {
                 {
                     props.navItems.map((item, index) => {
                         if (item.type === 'divider') {
-                            return <Divider key={index} style={{ marginTop: 5 }} />
+                            return <Divider key={index} style={{ marginTop: 5, marginBottom: 5 }} />
                         }
                         return <Tooltip title={item.tooltip} placement="right" key={index}>
                             <ListItem
