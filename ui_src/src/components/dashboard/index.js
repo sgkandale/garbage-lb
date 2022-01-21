@@ -1,9 +1,9 @@
 import React from 'react'
-import { Typography } from '@mui/material'
+import ServerLoad from './serverLoad'
 
 export default function Dashboard() {
 
-    return <Typography variant="body1" >
-        Dashboard
-    </Typography>
+    return <>
+        <ServerLoad />
+    </>
 }
