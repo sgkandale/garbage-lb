@@ -80,7 +80,7 @@ export default function CreateListener(props) {
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    <MenuItem value='http'>HTTP</MenuItem>
+                    <MenuItem value='HTTP'>HTTP</MenuItem>
                 </Select>
             </FormControl>
             <br />

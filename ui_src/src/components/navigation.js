@@ -15,7 +15,6 @@ export default function Navigation() {
         {
             name: 'Dashboard',
             icon: <DashboardIcon />,
-            tooltip: 'Dashboard',
             type: 'item',
             renderContent: <Dashboard />
         },
@@ -25,14 +24,12 @@ export default function Navigation() {
         {
             name: 'Listeners',
             icon: <Api />,
-            tooltip: 'Listener Elements',
             type: 'item',
             renderContent: <Listeners />
         },
         {
             name: 'Clusters',
             icon: <Storage />,
-            tooltip: 'Backend Clusters',
             type: 'item',
             renderContent: <Clusters />
         },
@@ -42,14 +39,12 @@ export default function Navigation() {
         {
             name: 'Settings',
             icon: <SettingsIcon />,
-            tooltip: 'Settings',
             type: 'item',
             renderContent: <Settings />
         },
         {
             name: 'Test',
             icon: <Speed />,
-            tooltip: 'Test',
             type: 'item',
             renderContent: <Test />
         },
@@ -59,7 +54,6 @@ export default function Navigation() {
         {
             name: 'Terminate',
             icon: <PowerSettingsNew />,
-            tooltip: 'Terminate Server',
             type: 'item',
             color: "#F15741",
             clickHandler: () => console.log("call terminate endpoint here")

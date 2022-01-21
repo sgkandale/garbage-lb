@@ -2,6 +2,15 @@ import { createStore } from "redux";
 
 const defaultState = {
     lbStatus: 'Active',
+    listeners: [
+        {
+            name: "Some Name",
+            port: "8080",
+            type: 'HTTP',
+            id: "abcd",
+            listening: true
+        }
+    ]
 }
 
 // Redux Store

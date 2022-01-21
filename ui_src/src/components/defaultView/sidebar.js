@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Drawer, Toolbar, List } from '@mui/material';
-import { Divider, ListItem, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
+import { Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
 const drawerWidth = 250;
 
@@ -22,35 +22,34 @@ export default function Sidebar(props) {
                         if (item.type === 'divider') {
                             return <Divider key={index} style={{ marginTop: 5, marginBottom: 5 }} />
                         }
-                        return <Tooltip title={item.tooltip} placement="right" key={index}>
-                            <ListItem
-                                button
-                                sx={{
-                                    color: item.color ?
-                                        item.color : 'grey.700',
-                                    bgcolor: props.activeNav === index ?
-                                        'primary.ultraLight' : 'none',
-                                    borderTopRightRadius: 20,
-                                    borderBottomRightRadius: 20,
-                                }}
-                                onClick={
-                                    () => {
-                                        if (item.clickHandler) {
-                                            item.clickHandler()
-                                        } else {
-                                            props.changeNav(item.name)
-                                        }
+                        return <ListItem
+                            button
+                            sx={{
+                                color: item.color ?
+                                    item.color : 'grey.700',
+                                bgcolor: props.activeNav === index ?
+                                    'primary.ultraLight' : 'none',
+                                borderTopRightRadius: 20,
+                                borderBottomRightRadius: 20,
+                            }}
+                            onClick={
+                                () => {
+                                    if (item.clickHandler) {
+                                        item.clickHandler()
+                                    } else {
+                                        props.changeNav(item.name)
                                     }
                                 }
+                            }
+                            key={index}
+                        >
+                            <ListItemIcon
+                                sx={{ color: item.color ? item.color : 'inherit' }}
                             >
-                                <ListItemIcon
-                                    sx={{ color: item.color ? item.color : 'inherit' }}
-                                >
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.name} />
-                            </ListItem>
-                        </Tooltip>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.name} />
+                        </ListItem>
                     })
                 }
             </List>
