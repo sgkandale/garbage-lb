@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { ArrowBack } from '@mui/icons-material'
 import TabPanel from '../../customComponents/tabpanel'
 import GeneralInfo from './general'
+import Delete from './delete'
 
 export default function ListenerInfo(props) {
     const [tab, setTab] = useState(0);
@@ -15,6 +16,11 @@ export default function ListenerInfo(props) {
         {
             label: 'General',
             content: <GeneralInfo />,
+        },
+        {
+            label: 'Delete',
+            content: <Delete />,
+            color: '#F15741'
         }
     ]
 
@@ -31,14 +37,21 @@ export default function ListenerInfo(props) {
             <Tabs value={tab} onChange={changeTab} aria-label="basic tabs example">
                 {
                     infoTabs.map((eachTab, index) => {
-                        return <Tab label={eachTab.label} style={{ textTransform: 'none' }} />
+                        return <Tab
+                            label={eachTab.label}
+                            sx={{
+                                textTransform: 'none',
+                                color: eachTab.color || 'text.secondary'
+                            }}
+                            key={index}
+                        />
                     })
                 }
             </Tabs>
         </Box>
         {
             infoTabs.map((eachTab, index) => {
-                return <TabPanel value={tab} index={index}>
+                return <TabPanel value={tab} index={index} key={index}>
                     {eachTab.content}
                 </TabPanel>
             })
