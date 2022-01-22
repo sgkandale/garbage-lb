@@ -1,18 +1,36 @@
 package main
 
 import (
-	"fmt"
 	"log"
+	"os"
+	"os/signal"
+	"sync"
 
-	"garbagelb/adminServer"
-	"garbagelb/serverLoad"
+	"garbagelb/listener"
 )
 
 func main() {
 	log.Println("Starting GarbageLB...")
 
-	load, _ := serverLoad.GetServerLoad()
-	fmt.Println("Server Load :", load)
+	serversWG := &sync.WaitGroup{}
 
-	adminServer.ServeWebUI()
+	registeredListeners := listener.ListListeners()
+	log.Printf("registered listeners : %d\n", registeredListeners)
+
+	listener.StartListeners(serversWG)
+
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, os.Interrupt)
+
+	// Block until a signal is received
+	<-ch
+
+	// attempt to stop all servers
+	listener.StopListeners(serversWG)
+
+	// wait for all servers to stop
+	serversWG.Wait()
+
+	log.Println("Stopping GarbageLB...")
+
 }

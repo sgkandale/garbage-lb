@@ -36,7 +36,8 @@ type Cluster struct {
 }
 
 type Admin struct {
-	Port string
+	Port    string
+	Enabled bool
 }
 
 type ConfigStruct struct {

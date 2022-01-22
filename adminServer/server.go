@@ -1,48 +1,18 @@
 package adminServer
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"time"
-
 	"garbagelb/config"
-
-	rice "github.com/GeertJohan/go.rice"
+	"net/http"
 )
 
-func ServeWebUI() {
-
-	appBox, err := rice.FindBox("../ui_src/build")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	http.HandleFunc("/", serveAppHandler(appBox))
-	http.HandleFunc("/serverLoad", GetServerLoad)
-
-	log.Println(
-		fmt.Sprintf(
-			"Admin UI Server starting at port %s...",
-			config.Config.Admin.Port,
-		),
-	)
-
-	log.Fatal(http.ListenAndServe(":"+config.Config.Admin.Port, nil))
+type AdminServer struct {
+	http.Server
 }
 
-func serveAppHandler(app *rice.Box) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		indexFile, err := app.Open("index.html")
-		if err != nil {
-			http.Error(
-				w,
-				"Internal Server Error",
-				http.StatusInternalServerError,
-			)
-			return
-		}
-
-		http.ServeContent(w, r, "index.html", time.Time{}, indexFile)
-	}
+func InitServer() AdminServer {
+	server := AdminServer{}
+	server.Addr = ":" + config.Config.Admin.Port
+	return server
 }
+
+var Server = InitServer()

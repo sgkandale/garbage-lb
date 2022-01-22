@@ -11,6 +11,7 @@ func verify(config *ConfigStruct) *ConfigStruct {
 	// Admin Checks
 	if config.Admin.Port == "" {
 		config.Admin.Port = defaults.AdminPort
+		config.Admin.Enabled = true
 	}
 
 	// Listener Checks
