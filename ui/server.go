@@ -22,7 +22,7 @@ func ServeWebUI() {
 
 	log.Println(
 		fmt.Sprintf(
-			"UI Server starting at port %s...",
+			"Admin UI Server starting at port %s...",
 			config.Config.Admin.Port,
 		),
 	)
