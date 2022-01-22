@@ -11,21 +11,28 @@ func ListListeners() int {
 	if config.Config.Admin.Enabled {
 		totalListeners++
 		adminListener := Listener{
-			Name:          "adminServer",
-			Port:          config.Config.Admin.Port,
 			ServerHandler: &adminServer.Server,
+			ListenerDetails: &config.Listener{
+				ID:        "admin",
+				Name:      "admin server",
+				Port:      config.Config.Admin.Port,
+				Type:      "http",
+				Listening: true,
+			},
 		}
 		Listeners = append(Listeners, &adminListener)
 	}
 
 	for _, listener := range config.Config.Listeners {
 		totalListeners++
-		listener := Listener{
-			Name:          listener.Name,
-			Port:          listener.Port,
+		newListener := Listener{
 			ServerHandler: nil,
+			ListenerDetails: &config.Listener{
+				Name: listener.Name,
+				Port: listener.Port,
+			},
 		}
-		Listeners = append(Listeners, &listener)
+		Listeners = append(Listeners, &newListener)
 	}
 
 	return totalListeners

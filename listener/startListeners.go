@@ -10,6 +10,6 @@ func StartListeners(serversWG *sync.WaitGroup) {
 
 	for _, listener := range Listeners {
 		serversWG.Add(1)
-		listener.ServerHandler.Listen(serversWG)
+		listener.ServerHandler.Listen(serversWG, listener.ListenerDetails)
 	}
 }

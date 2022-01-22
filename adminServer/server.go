@@ -1,7 +1,6 @@
 package adminServer
 
 import (
-	"garbagelb/config"
 	"net/http"
 )
 
@@ -10,9 +9,7 @@ type AdminServer struct {
 }
 
 func InitServer() AdminServer {
-	server := AdminServer{}
-	server.Addr = ":" + config.Config.Admin.Port
-	return server
+	return AdminServer{}
 }
 
 var Server = InitServer()

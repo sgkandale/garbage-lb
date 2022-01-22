@@ -4,10 +4,12 @@ import (
 	"context"
 	"log"
 	"sync"
+
+	"garbagelb/config"
 )
 
-func (webServer *AdminServer) Terminate(wg *sync.WaitGroup, name string) {
-	log.Printf("shutting down %s\n...", name)
+func (webServer *AdminServer) Terminate(wg *sync.WaitGroup, listener *config.Listener) {
+	log.Printf("shutting down %s\n...", listener.Name)
 
 	// waitgroup is already defered to done in listen
 

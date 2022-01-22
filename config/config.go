@@ -1,15 +1,16 @@
 package config
 
 type Listener struct {
-	ID         string
-	Name       string
-	Port       string
-	TLS        bool
-	CertPath   string
-	KeyPath    string
-	DomainName string
-	Type       string
-	Listening  bool
+	ID            string
+	Name          string
+	Port          string
+	TLS           bool
+	CertPath      string
+	KeyPath       string
+	DomainName    string
+	Type          string
+	Listening     bool
+	TargetCluster Cluster
 }
 
 type Endpoint struct {
