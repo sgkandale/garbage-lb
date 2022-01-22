@@ -1,25 +1,51 @@
 import { Box, Button, Tabs, Tab } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowBack } from '@mui/icons-material'
 import TabPanel from '../../customComponents/tabpanel'
 import GeneralInfo from './general'
 import Delete from './delete'
+import { useSelector } from 'react-redux'
+import Filters from './filters'
 
 export default function ListenerInfo(props) {
     const [tab, setTab] = useState(0);
+    const [listener, setListener] = useState({})
+    const listeners = useSelector(state => state.listeners)
 
     const changeTab = (event, newValue) => {
         setTab(newValue);
     };
 
+    useEffect(() => {
+        if (listeners.length === 0) {
+            return
+        } else {
+            for (let i = 0; i < listeners.length; i++) {
+                if (listeners[i].id === props.listener) {
+                    setListener(listeners[i])
+                }
+            }
+        }
+    }, [])
+
     const infoTabs = [
         {
             label: 'General',
-            content: <GeneralInfo />,
+            content: <GeneralInfo
+                listener={listener.id}
+            />,
+        },
+        {
+            label: 'Filters',
+            content: <Filters
+                listener={listener.id}
+            />,
         },
         {
             label: 'Delete',
-            content: <Delete />,
+            content: <Delete
+                listener={listener.id}
+            />,
             color: '#F15741'
         }
     ]

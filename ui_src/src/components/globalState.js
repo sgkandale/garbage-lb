@@ -8,7 +8,24 @@ const defaultState = {
             port: "8080",
             type: 'HTTP',
             id: "abcd",
-            listening: true
+            listening: true,
+            filters: [
+                {
+                    name: "Some Filter",
+                    id: "abcd",
+                    rules: [
+                        {
+                            name: "Some Rule",
+                            id: "abcd",
+                            type: "Path",
+                            value: "/some/path",
+                            subValue: "",
+                            action: "Allow",
+                            enabled: true,
+                        },
+                    ],
+                }
+            ]
         }
     ],
     clusters: [

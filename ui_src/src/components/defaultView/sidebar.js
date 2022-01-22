@@ -25,7 +25,7 @@ export default function Sidebar(props) {
                         return <ListItem
                             button
                             sx={{
-                                color: item.color || 'grey.700',
+                                color: item.color || props.activeNav === index ? 'text.primary' : 'grey.700',
                                 bgcolor: props.activeNav === index ?
                                     'primary.ultraLight' : 'none',
                                 borderTopRightRadius: 20,
