@@ -12,4 +12,4 @@ Garbage load balancer
     go build main.go
 
 #### Append Static Files
-    rice append -i garbagelb/ui --exec main.exe
+    rice append -i garbagelb/adminServer --exec main.exe

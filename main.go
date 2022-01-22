@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"garbagelb/adminServer"
 	"garbagelb/serverLoad"
-	"garbagelb/ui"
 )
 
 func main() {
@@ -14,5 +14,5 @@ func main() {
 	load, _ := serverLoad.GetServerLoad()
 	fmt.Println("Server Load :", load)
 
-	ui.ServeWebUI()
+	adminServer.ServeWebUI()
 }

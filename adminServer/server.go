@@ -1,4 +1,4 @@
-package ui
+package adminServer
 
 import (
 	"fmt"
@@ -19,6 +19,7 @@ func ServeWebUI() {
 	}
 
 	http.HandleFunc("/", serveAppHandler(appBox))
+	http.HandleFunc("/serverLoad", GetServerLoad)
 
 	log.Println(
 		fmt.Sprintf(
