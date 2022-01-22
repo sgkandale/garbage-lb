@@ -1,5 +1,5 @@
 # garbage-lb
-Garbage load balancer written in Go
+Garbage load balancer
 
 
 ### Build From Source
