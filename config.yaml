@@ -1,0 +1,19 @@
+admin:
+  port: "8081"
+  enabled: true
+listeners:
+  name: "test-listener"
+  port: "8080"
+  type: "http"
+  listening: true
+  targetCluster: "test-cluster"
+clusters:
+  id: "test-cluster"
+  name: "test-cluster"
+  type: "logical"
+  policy: "round_robin"
+  endpoints:
+    id: "test-endpoint"
+    name: "test-endpoint"
+    address: "0.0.0.0"
+    port: "8082"

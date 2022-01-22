@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+
 	log.Println("Starting GarbageLB...")
 
 	serversWG := &sync.WaitGroup{}

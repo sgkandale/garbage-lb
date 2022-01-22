@@ -1,8 +1,11 @@
 package listener
 
 import (
+	"fmt"
+
 	"garbagelb/adminServer"
 	"garbagelb/config"
+	"garbagelb/http"
 )
 
 func ListListeners() int {
@@ -13,7 +16,6 @@ func ListListeners() int {
 		adminListener := Listener{
 			ServerHandler: &adminServer.Server,
 			ListenerDetails: &config.Listener{
-				ID:        "admin",
 				Name:      "admin server",
 				Port:      config.Config.Admin.Port,
 				Type:      "http",
@@ -26,11 +28,28 @@ func ListListeners() int {
 	for _, listener := range config.Config.Listeners {
 		totalListeners++
 		newListener := Listener{
-			ServerHandler: nil,
+			ServerHandler: &http.Server,
 			ListenerDetails: &config.Listener{
-				Name: listener.Name,
-				Port: listener.Port,
+				Name:          listener.Name,
+				Port:          listener.Port,
+				Type:          listener.Type,
+				Listening:     listener.Listening,
+				TargetCluster: listener.TargetCluster,
 			},
+		}
+		for _, cluster := range config.Config.Clusters {
+			if cluster.Name == listener.TargetCluster {
+				newListener.ListenerDetails.TargetClusterDetails = &cluster
+			}
+		}
+		if newListener.ListenerDetails.TargetClusterDetails == nil {
+			panic(
+				fmt.Sprintf(
+					"cluster : %s not found for listener : %s",
+					listener.TargetCluster,
+					listener.Name,
+				),
+			)
 		}
 		Listeners = append(Listeners, &newListener)
 	}

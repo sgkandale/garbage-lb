@@ -2,6 +2,12 @@ package http
 
 import "net/http"
 
-type Server struct {
+type HTTPServer struct {
 	http.Server
 }
+
+func InitServer() HTTPServer {
+	return HTTPServer{}
+}
+
+var Server = InitServer()

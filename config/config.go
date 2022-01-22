@@ -1,20 +1,19 @@
 package config
 
 type Listener struct {
-	ID            string
-	Name          string
-	Port          string
-	TLS           bool
-	CertPath      string
-	KeyPath       string
-	DomainName    string
-	Type          string
-	Listening     bool
-	TargetCluster Cluster
+	Name                 string
+	Port                 string
+	TLS                  bool
+	CertPath             string
+	KeyPath              string
+	DomainName           string
+	Type                 string
+	Listening            bool
+	TargetCluster        string
+	TargetClusterDetails *Cluster
 }
 
 type Endpoint struct {
-	ID      string
 	Name    string
 	Address string
 	Port    string
@@ -29,9 +28,9 @@ type ClusterHealth struct {
 }
 
 type Cluster struct {
-	ID        string
 	Name      string
 	Type      string
+	Policy    string
 	Endpoints []Endpoint
 	Health    ClusterHealth
 }

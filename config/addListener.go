@@ -4,8 +4,8 @@ import "fmt"
 
 func (configStruct *ConfigStruct) AddListener(listener Listener) error {
 
-	if listener.ID == "" {
-		return fmt.Errorf("Listener ID cannot be empty")
+	if listener.Name == "" {
+		return fmt.Errorf("Listener Name cannot be empty")
 	}
 
 	configStruct.Listeners = append(configStruct.Listeners, listener)
