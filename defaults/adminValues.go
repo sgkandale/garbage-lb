@@ -1,5 +1,5 @@
 package defaults
 
 const (
-	AdminPort = "8081"
+	AdminPort = 8081
 )

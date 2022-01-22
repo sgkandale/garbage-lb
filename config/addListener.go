@@ -1,14 +1,13 @@
 package config
 
-import "fmt"
+import "log"
 
-func (configStruct *ConfigStruct) AddListener(listener Listener) error {
+func (configStruct *ConfigStruct) AddListener(listener *Listener) {
 
 	if listener.Name == "" {
-		return fmt.Errorf("Listener Name cannot be empty")
+		log.Fatal("Listener Name cannot be empty")
 	}
 
 	configStruct.Listeners = append(configStruct.Listeners, listener)
 
-	return nil
 }

@@ -1,9 +1,9 @@
 admin:
-  port: "8081"
+  port: 8081
   enabled: true
 listeners:
   name: "test-listener"
-  port: "8080"
+  port: 8080
   type: "http"
   listening: true
   targetCluster: "test-cluster"
@@ -16,4 +16,4 @@ clusters:
     id: "test-endpoint"
     name: "test-endpoint"
     address: "0.0.0.0"
-    port: "8082"
+    port: 8082

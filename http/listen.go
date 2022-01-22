@@ -12,9 +12,9 @@ import (
 
 func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) {
 
-	server.Addr = fmt.Sprintf(":%s", listener.Port)
+	server.Addr = fmt.Sprintf(":%d", listener.Port)
 
-	targetCluster := config.Cluster{}
+	targetCluster := &config.Cluster{}
 
 	targetClusterName := listener.TargetCluster
 	for _, cluster := range config.Config.Clusters {
@@ -27,17 +27,17 @@ func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) 
 	case "round_robin":
 		server.Handler = http.HandlerFunc(server.LBHandler)
 	default:
-		panic(
-			fmt.Sprintf(
-				"unsupported cluster policy : %s",
-				targetCluster.Policy,
-			),
+		log.Printf(
+			"unsupported cluster policy : %s",
+			targetCluster.Policy,
 		)
+		wg.Done()
+		return
 	}
 
 	log.Println(
 		fmt.Sprintf(
-			"%s starting at port %s...",
+			"%s starting at port %d...",
 			listener.Name,
 			listener.Port,
 		),

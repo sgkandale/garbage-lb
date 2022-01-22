@@ -39,7 +39,7 @@ func ListListeners() int {
 		}
 		for _, cluster := range config.Config.Clusters {
 			if cluster.Name == listener.TargetCluster {
-				newListener.ListenerDetails.TargetClusterDetails = &cluster
+				newListener.ListenerDetails.TargetClusterDetails = cluster
 			}
 		}
 		if newListener.ListenerDetails.TargetClusterDetails == nil {

@@ -16,7 +16,7 @@ func main() {
 	serversWG := &sync.WaitGroup{}
 
 	registeredListeners := listener.ListListeners()
-	log.Printf("registered listeners : %d\n", registeredListeners)
+	log.Printf("total listeners : %d\n", registeredListeners)
 
 	listener.StartListeners(serversWG)
 

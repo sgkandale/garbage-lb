@@ -13,7 +13,7 @@ import (
 
 func (webServer *AdminServer) Listen(wg *sync.WaitGroup, listener *config.Listener) {
 
-	webServer.Addr = fmt.Sprintf(":%s", listener.Port)
+	webServer.Addr = fmt.Sprintf(":%d", listener.Port)
 
 	appBox, err := rice.FindBox("../ui_src/build")
 	if err != nil {
@@ -25,7 +25,7 @@ func (webServer *AdminServer) Listen(wg *sync.WaitGroup, listener *config.Listen
 
 	log.Println(
 		fmt.Sprintf(
-			"Admin UI Server starting at port %s...",
+			"Admin UI Server starting at port %d...",
 			listener.Port,
 		),
 	)

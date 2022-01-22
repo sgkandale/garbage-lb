@@ -2,7 +2,7 @@ package config
 
 type Listener struct {
 	Name                 string
-	Port                 string
+	Port                 int
 	TLS                  bool
 	CertPath             string
 	KeyPath              string
@@ -16,7 +16,7 @@ type Listener struct {
 type Endpoint struct {
 	Name    string
 	Address string
-	Port    string
+	Port    int
 	Healthy bool
 }
 
@@ -36,12 +36,12 @@ type Cluster struct {
 }
 
 type Admin struct {
-	Port    string
+	Port    int
 	Enabled bool
 }
 
 type ConfigStruct struct {
 	Admin     Admin
-	Listeners []Listener
-	Clusters  []Cluster
+	Listeners []*Listener
+	Clusters  []*Cluster
 }

@@ -20,8 +20,6 @@ var configFilePath = parseFlags()
 
 func parseConfig() *ConfigStruct {
 
-	var readConfig ConfigStruct
-
 	viper.SetConfigName("config")       // name of config file
 	viper.SetConfigType("yaml")         // extension of config file
 	viper.AddConfigPath(configFilePath) // optional directory for config file
@@ -30,12 +28,18 @@ func parseConfig() *ConfigStruct {
 	if err != nil {
 		if strings.Contains(err.Error(), "Not Found") {
 			log.Println("Config file not found. Using default values.")
-			return &readConfig
+			return &ConfigStruct{
+				Admin: Admin{
+					Enabled: true,
+				},
+			}
 		}
 		log.Fatal("error parsing config file : ", err)
 	}
 
 	log.Println("parsing config file")
+
+	var readConfig ConfigStruct
 
 	err = viper.Unmarshal(&readConfig)
 	if err != nil {
