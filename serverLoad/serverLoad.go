@@ -1,18 +1,22 @@
 package serverLoad
 
-type ResourceDetails struct {
-	Total           string
-	InUse           string
-	Available       string
-	InUsePercentage string
-	UpStreamUse     string
-	DownStreamUse   string
+type ResourceUsage struct {
+	Total           string `json:"total,omitempty"`
+	InUse           string `json:"inUse,omitempty"`
+	Available       string `json:"available,omitempty"`
+	InUsePercentage string `json:"inUsePercentage,omitempty"`
+	UpStreamUse     string `json:"upStreamUse,omitempty"`
+	DownStreamUse   string `json:"downStreamUse,omitempty"`
+	ReadBytes       string `json:"readBytes,omitempty"`
+	WriteBytes      string `json:"writeBytes,omitempty"`
+	IOps            string `json:"iops,omitempty"`
 }
 
 type ServerLoad struct {
-	CPU     ResourceDetails
-	Memory  ResourceDetails
-	Disk    ResourceDetails
-	Network ResourceDetails
-	Storage ResourceDetails
+	CPU     ResourceUsage `json:"cpu,omitempty"`
+	Memory  ResourceUsage `json:"memory,omitempty"`
+	Disk    ResourceUsage `json:"disk,omitempty"`
+	Network ResourceUsage `json:"network,omitempty"`
+	Storage ResourceUsage `json:"storage,omitempty"`
+	Runtime ResourceUsage `json:"runtime,omitempty"`
 }
