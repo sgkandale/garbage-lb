@@ -1,42 +1,87 @@
 package config
 
 import (
-	"log"
+	"fmt"
 	"strings"
 
 	"garbagelb/defaults"
 )
 
-func (configStruct *ConfigStruct) AddCluster(cluster *Cluster) {
+func (configStruct *ConfigStruct) AddCluster(givenCluster *Cluster) error {
 
 	newCluster := &Cluster{}
 
-	if cluster.Name == "" {
-		log.Fatal("Cluster Name cannot be empty")
+	if givenCluster.Name == "" {
+		return fmt.Errorf("cluster name cannot be empty")
 	}
 
 	// check for existing cluster name
-	for _, eachCluster := range configStruct.Clusters {
+	for eachClusterIndex, eachCluster := range configStruct.Clusters {
 		// check case insensitive name
-		if strings.EqualFold(eachCluster.Name, cluster.Name) {
-			log.Fatal("Cluster name already used {%s}" + cluster.Name)
+		if strings.EqualFold(eachCluster.Name, givenCluster.Name) {
+			return fmt.Errorf(
+				"cluster name {%s} is already defined at index {%d} as {%s}",
+				givenCluster.Name,
+				eachClusterIndex,
+				eachCluster.Name,
+			)
 		}
 	}
+	newCluster.Name = givenCluster.Name
 
 	// check for cluster policy
 	for _, eachPolicy := range defaults.ClusterPolicies {
-		if eachPolicy == cluster.Policy {
-			newCluster.Policy = cluster.Policy
+		if eachPolicy == givenCluster.Policy {
+			newCluster.Policy = givenCluster.Policy
 		}
 	}
 	if newCluster.Policy == "" {
-		log.Fatalf("invalid cluster policy {%s} for cluster {%s}", cluster.Policy, cluster.Name)
+		return fmt.Errorf(
+			"unsupported cluster policy {%s} for cluster {%s}",
+			givenCluster.Policy,
+			givenCluster.Name,
+		)
 	}
 
-	for _, eachEndpoint := range cluster.Endpoints {
-		newCluster.AddEndpoint(eachEndpoint)
+	// endpoint checks
+	for givenEndpointIndex, givenEndpoint := range givenCluster.Endpoints {
+		newEndpoint := &Endpoint{}
+		// endpoint name validity
+		if givenEndpoint.Name == "" {
+			return fmt.Errorf(
+				"endpoint name is empty at index {%d} in cluster {%s}",
+				givenEndpointIndex,
+				givenCluster.Name,
+			)
+		}
+		// check for duplicate endpoint name
+		for existingEndpointIndex, existingEndpoint := range newCluster.Endpoints {
+			if strings.EqualFold(existingEndpoint.Name, givenEndpoint.Name) {
+				return fmt.Errorf(
+					"endpoint name {%s} is already defined at index {%d} as {%s} in cluster {%s}",
+					givenEndpoint.Name,
+					existingEndpointIndex,
+					existingEndpoint.Name,
+					givenCluster.Name,
+				)
+			}
+		}
+		newEndpoint.Name = givenEndpoint.Name
+		newEndpoint.Address = givenEndpoint.Address
+		if givenEndpoint.Port < 1 || givenEndpoint.Port > 65535 {
+			return fmt.Errorf(
+				"port out of range for endpoint at index {%d} in cluster {%s}",
+				givenEndpointIndex,
+				givenCluster.Name,
+			)
+		}
+		newEndpoint.Port = givenEndpoint.Port
+		// temporary, until health checks are implemented
+		newEndpoint.Healthy = true
+		newCluster.Endpoints = append(newCluster.Endpoints, newEndpoint)
 	}
 
-	configStruct.Clusters = append(configStruct.Clusters, cluster)
+	configStruct.Clusters = append(configStruct.Clusters, newCluster)
 
+	return nil
 }

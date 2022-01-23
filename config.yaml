@@ -1,28 +1,27 @@
 admin:
   port: 8081
-  enabled: false
+  enabled: true
 clusters:
-  id: "test-cluster"
-  name: "test-cluster"
-  type: "logical"
-  policy: "round_robi"
-  endpoints:
-    - id: "test-endpoint"
-      name: "test-endpoint"
-      address: "0.0.0.0"
-      port: 8082
+  - name: "test-cluster"
+    # type: "logical"
+    policy: "round_robin"
+    endpoints:
+      - id: "test-endpoint"
+        name: "test-endpoint"
+        address: "0.0.0.0"
+        port: 8082
 listeners:
   name: "test-listener"
   port: 8080
   type: "http"
   listening: true
-  filters:
-    - name: "test-filter"
-      rules:
-        - name: "test-rule"
-          type: "path"
-          value: "/some/path"
-          subvalue: ""
-          action: "allow"
-          enabled: true
-          cluster: "test-cluster"
+  filter:
+    name: "test-filter"
+    rules:
+      - name: "test-rule"
+        type: "path"
+        value: "/some/path"
+        subvalue: ""
+        action: "allow"
+        enabled: true
+        cluster: "test-cluster"

@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/GeertJohan/go.rice v1.0.2
+	github.com/gorilla/mux v1.8.0
 	github.com/shirou/gopsutil/v3 v3.21.12
 	github.com/spf13/viper v1.10.1
 )

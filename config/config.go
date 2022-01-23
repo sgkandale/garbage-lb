@@ -9,7 +9,7 @@ type Listener struct {
 	DomainName string
 	Type       string
 	Listening  bool
-	Filters    []*Filter
+	Filter     *Filter
 }
 
 type Endpoint struct {
@@ -27,11 +27,11 @@ type ClusterHealth struct {
 }
 
 type Cluster struct {
-	Name      string
-	Type      string
+	Name string
+	// Type      string
 	Policy    string
-	Endpoints []Endpoint
-	Health    ClusterHealth
+	Endpoints []*Endpoint
+	Health    *ClusterHealth
 }
 
 type Rule struct {
@@ -56,7 +56,7 @@ type Admin struct {
 }
 
 type ConfigStruct struct {
-	Admin     Admin
+	Admin     *Admin
 	Listeners []*Listener
 	Clusters  []*Cluster
 }

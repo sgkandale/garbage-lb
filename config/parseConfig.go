@@ -29,7 +29,7 @@ func parseConfig() *ConfigStruct {
 		if strings.Contains(err.Error(), "Not Found") {
 			log.Println("Config file not found. Using default values.")
 			return &ConfigStruct{
-				Admin: Admin{
+				Admin: &Admin{
 					Enabled: true,
 				},
 			}

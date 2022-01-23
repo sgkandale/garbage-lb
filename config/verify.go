@@ -12,12 +12,14 @@ func verify(config *ConfigStruct) *ConfigStruct {
 
 	// Admin Checks
 	if config.Admin.Enabled {
-		newConfig.Admin.Enabled = true
+		newAdmin := &Admin{}
+		newAdmin.Enabled = true
 		if config.Admin.Port == 0 {
-			newConfig.Admin.Port = defaults.AdminPort
+			newAdmin.Port = defaults.AdminPort
 		} else {
-			newConfig.Admin.Port = config.Admin.Port
+			newAdmin.Port = config.Admin.Port
 		}
+		newConfig.Admin = newAdmin
 	}
 
 	// Cluster Checks
@@ -25,7 +27,10 @@ func verify(config *ConfigStruct) *ConfigStruct {
 		log.Println("No clusters defined for listeners.")
 	} else {
 		for _, eachCluster := range config.Clusters {
-			newConfig.AddCluster(eachCluster)
+			err := newConfig.AddCluster(eachCluster)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 
@@ -36,7 +41,10 @@ func verify(config *ConfigStruct) *ConfigStruct {
 		}
 	} else {
 		for _, eachListener := range config.Listeners {
-			newConfig.AddListener(eachListener)
+			err := newConfig.AddListener(eachListener)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 

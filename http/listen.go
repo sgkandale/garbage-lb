@@ -13,6 +13,10 @@ func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) 
 
 	server.Addr = fmt.Sprintf(":%d", listener.Port)
 
+	if listener.Filter != nil {
+
+	}
+
 	// targetCluster := &config.Cluster{}
 
 	// targetClusterName := listener.TargetCluster

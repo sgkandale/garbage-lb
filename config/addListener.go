@@ -1,79 +1,195 @@
 package config
 
 import (
-	"log"
+	"fmt"
 	"strings"
 
 	"garbagelb/defaults"
 )
 
-func (configStruct *ConfigStruct) AddListener(listener *Listener) {
+func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 
 	newListener := &Listener{}
 
-	if listener.Name == "" {
-		log.Fatal("Listener Name cannot be empty")
+	if givenListener.Name == "" {
+		return fmt.Errorf("Listener Name cannot be empty")
 	}
 
 	for _, eachListener := range configStruct.Listeners {
 		// check case insensitive name
-		if strings.EqualFold(eachListener.Name, listener.Name) {
-			log.Fatalf("listener name {%s} is already in use", listener.Name)
+		if strings.EqualFold(eachListener.Name, givenListener.Name) {
+			return fmt.Errorf("listener name {%s} is already in use", givenListener.Name)
 		}
 	}
-	newListener.Name = listener.Name
+	newListener.Name = givenListener.Name
 
-	if listener.Port < 1 || listener.Port > 65535 {
-		log.Fatalf(
+	if givenListener.Port < 1 || givenListener.Port > 65535 {
+		return fmt.Errorf(
 			"out of range port {%d} for listener {%s}",
-			listener.Port,
-			listener.Name,
+			givenListener.Port,
+			givenListener.Name,
 		)
 	}
-	newListener.Port = listener.Port
+	newListener.Port = givenListener.Port
 
 	// TLS checks pending
 
 	for _, listenerType := range defaults.ListenerTypes {
-		if strings.EqualFold(listenerType, listener.Type) {
+		if strings.EqualFold(listenerType, givenListener.Type) {
 			newListener.Type = listenerType
 		}
 	}
 	if newListener.Type == "" {
-		log.Fatalf(
+		return fmt.Errorf(
 			"unsupported listener type {%s} for listener {%s}",
-			listener.Type,
-			listener.Name,
+			givenListener.Type,
+			givenListener.Name,
 		)
 	}
 
-	newListener.Listening = listener.Listening
+	newListener.Listening = givenListener.Listening
 
 	// filter checks
-	for newFilterIndex, newFilter := range listener.Filters {
-		// check name validity
-		if newFilter.Name == "" {
-			log.Fatalf(
-				"filter name cannot be empty for listener {%s} at index {%d}",
-				listener.Name,
-				newFilterIndex,
+	if givenListener.Filter == nil {
+		return fmt.Errorf(
+			"no filter provided for listener {%s}",
+			givenListener.Name,
+		)
+	}
+	if givenListener.Filter.Name == "" {
+		return fmt.Errorf(
+			"filter name is empty for listener {%s}",
+			givenListener.Name,
+		)
+	}
+	newFilter := &Filter{
+		Name: givenListener.Filter.Name,
+	}
+	// rules checks
+	for eachRuleIndex, eachRule := range givenListener.Filter.Rules {
+		newRule := &Rule{}
+		// check rule name validity
+		if eachRule.Name == "" {
+			return fmt.Errorf(
+				"rule name is empty at index {%d} in filter {%s} in listener {%s}",
+				eachRuleIndex,
+				givenListener.Filter.Name,
+				givenListener.Name,
 			)
 		}
-		// check for existing name
-		for existingFiltersIndex, existingFilter := range newListener.Filters {
-			if strings.EqualFold(existingFilter.Name, newFilter.Name) {
-				log.Fatalf(
-					"filter name {%s} at index {%d} is already defined at index {%d} for listener {%s}",
-					newFilter.Name,
-					newFilterIndex,
-					existingFiltersIndex,
-					listener.Name,
+		// check for existing rule name
+		for existingRuleIndex, existingRule := range newFilter.Rules {
+			if strings.EqualFold(existingRule.Name, eachRule.Name) {
+				return fmt.Errorf(
+					`duplicate rule name {%s} ::::
+						 trace : 
+						 listener {%s}
+						 filter {%s}
+						 first use at rule {%d}
+						 second use at rule {%d}`,
+					eachRule.Name,
+					givenListener.Name,
+					givenListener.Filter.Name,
+					existingRuleIndex,
+					eachRuleIndex,
 				)
 			}
 		}
+		newRule.Name = eachRule.Name
+		// check rule types and values
+		for _, eachRuleType := range defaults.RuleTypes {
+			if strings.EqualFold(eachRuleType.Name, eachRule.Type) {
+				newRule.Type = eachRuleType.Name
+				if eachRuleType.ValueRequired && eachRule.Value == "" {
+					return fmt.Errorf(
+						`value id required for rule type {%s} ::::
+							 trace :
+							 listener {%s}
+							 filter {%s}
+							 rule {%d}`,
+						eachRule.Type,
+						givenListener.Name,
+						givenListener.Filter.Name,
+						eachRuleIndex,
+					)
+				}
+				newRule.Value = eachRule.Value
+				if eachRuleType.SubvalueRequired && eachRule.Subvalue == "" {
+					return fmt.Errorf(
+						`subvalue id required for rule type {%s} ::::
+							 trace :
+							 listener {%s}
+							 filter {%s}
+							 rule {%d}`,
+						eachRule.Type,
+						givenListener.Name,
+						givenListener.Filter.Name,
+						eachRuleIndex,
+					)
+				}
+				newRule.Subvalue = eachRule.Subvalue
+			}
+		}
+		if newRule.Type == "" {
+			return fmt.Errorf(
+				`invalid rule type {%s} ::::
+					 trace :
+					 listener {%s}
+					 filter {%s}
+					 rule {%d}`,
+				eachRule.Type,
+				givenListener.Name,
+				givenListener.Filter.Name,
+				eachRuleIndex,
+			)
+		}
+		// rule action checks
+		for _, eachAction := range defaults.RuleActionValues {
+			if strings.EqualFold(eachAction, eachRule.Action) {
+				newRule.Action = eachRule.Action
+			}
+		}
+		if newRule.Action == "" {
+			return fmt.Errorf(
+				`invalid action {%s} ::::
+					 trace :
+					 listener {%s}
+					 filter {%s}
+					 rule {%d}`,
+				eachRule.Action,
+				givenListener.Name,
+				givenListener.Filter.Name,
+				eachRuleIndex,
+			)
+		}
+		// cluster checks
+		for _, existingCluster := range configStruct.Clusters {
+			if existingCluster.Name == eachRule.Cluster {
+				newRule.Cluster = eachRule.Cluster
+				newRule.TargetCluster = existingCluster
+			}
+		}
+		if newRule.Cluster == "" || newRule.TargetCluster == nil {
+			return fmt.Errorf(
+				`invalid cluster name {%s} ::::
+					 trace :
+					 listener {%s}
+					 filter {%s}
+					 rule {%d}`,
+				eachRule.Cluster,
+				givenListener.Name,
+				givenListener.Filter.Name,
+				eachRuleIndex,
+			)
+		}
+		newFilter.Rules = append(newFilter.Rules, newRule)
 	}
+
+	newListener.Filter = newFilter
 
 	// add newListener to config
 	configStruct.Listeners = append(configStruct.Listeners, newListener)
+
+	return nil
 
 }
