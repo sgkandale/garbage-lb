@@ -15,7 +15,7 @@ export default function TopbarStatus() {
             dotColor: '#F8FF00',
         },
         {
-            name: 'Terminated',
+            name: 'Offline',
             dotColor: '#FF0000',
         },
         {

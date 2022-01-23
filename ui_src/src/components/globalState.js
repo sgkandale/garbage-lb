@@ -27,7 +27,7 @@ import { createStore } from "redux";
 // }
 
 const defaultState = {
-    lbStatus: 'Active',
+    lbStatus: 'Unknown',
     listeners: [
         {
             name: "Some Name",
@@ -81,7 +81,6 @@ const defaultState = {
     serverLoad: {
         loading: true,
     },
-    serverStatus: "unknown"
 }
 
 // Redux Store
@@ -101,10 +100,10 @@ const rootReducer = (state = defaultState, action) => {
                 serverLoad: action.serverLoad,
             }
 
-        case 'SET_SERVER_OFFLINE':
+        case 'SET_SERVER_STATUS':
             return {
                 ...state,
-                serverStatus: action.serverStatus,
+                lbStatus: action.lbStatus,
             }
 
         // Return the current state if action doesn't match one this reducer cares about
