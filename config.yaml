@@ -1,6 +1,6 @@
 admin:
   port: 8081
-  enabled: true
+  enabled: false
 clusters:
   id: "test-cluster"
   name: "test-cluster"
