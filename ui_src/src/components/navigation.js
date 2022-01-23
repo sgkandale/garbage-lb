@@ -8,6 +8,7 @@ import Clusters from './clusters'
 import Settings from './settings'
 import Test from './test'
 import GetServerLoad from './getServerLoad';
+import GetListeners from './getListeners';
 
 export default function Navigation() {
     const [activeNav, setActiveNav] = useState(0);
@@ -78,6 +79,7 @@ export default function Navigation() {
             changeNav={changeNav}
         />
         <GetServerLoad />
+        <GetListeners />
     </>
 
     // return <BrowserRouter>
