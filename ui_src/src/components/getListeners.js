@@ -8,6 +8,7 @@ export default function GetListeners() {
     const fetchData = () => {
         axios.get('/listener')
             .then(response => {
+                console.log("response.data : ", response.data)
                 dispatch({ type: 'SET_LISTENERS', serverLoad: response.data })
                 dispatch({ type: 'SET_SERVER_STATUS', lbStatus: "Active" })
             })
