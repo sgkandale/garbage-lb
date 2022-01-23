@@ -14,8 +14,8 @@ func getNetworkDetails() (*ResourceUsage, error) {
 	for _, netStats := range netStat {
 		if netStats.Name == "all" {
 			return &ResourceUsage{
-				UpStreamUse:   convertMemoryToString(netStats.BytesSent),
-				DownStreamUse: convertMemoryToString(netStats.BytesRecv),
+				SentData:     convertMemoryToString(netStats.BytesSent),
+				ReceivedData: convertMemoryToString(netStats.BytesRecv),
 			}, nil
 		}
 	}

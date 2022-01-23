@@ -7,6 +7,7 @@ import Listeners from './listeners'
 import Clusters from './clusters'
 import Settings from './settings'
 import Test from './test'
+import GetServerLoad from './getServerLoad';
 
 export default function Navigation() {
     const [activeNav, setActiveNav] = useState(0);
@@ -70,11 +71,14 @@ export default function Navigation() {
         setActiveNav(-1);
     }
 
-    return <DefaultView
-        navItems={navItems}
-        activeNav={activeNav}
-        changeNav={changeNav}
-    />
+    return <>
+        <DefaultView
+            navItems={navItems}
+            activeNav={activeNav}
+            changeNav={changeNav}
+        />
+        <GetServerLoad />
+    </>
 
     // return <BrowserRouter>
     //     <Routes>

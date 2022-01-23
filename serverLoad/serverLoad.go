@@ -5,8 +5,8 @@ type ResourceUsage struct {
 	InUse           string `json:"inUse,omitempty"`
 	Available       string `json:"available,omitempty"`
 	InUsePercentage string `json:"inUsePercentage,omitempty"`
-	UpStreamUse     string `json:"upStreamUse,omitempty"`
-	DownStreamUse   string `json:"downStreamUse,omitempty"`
+	SentData        string `json:"sentData,omitempty"`
+	ReceivedData    string `json:"receivedData,omitempty"`
 	ReadBytes       string `json:"readBytes,omitempty"`
 	WriteBytes      string `json:"writeBytes,omitempty"`
 	IOps            string `json:"iops,omitempty"`

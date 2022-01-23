@@ -34,16 +34,16 @@ export default function ServerLoad() {
             <Divider orientation="vertical" flexItem />
             <Box>
                 <Typography variant="body1" style={{ marginBottom: 10 }}>
-                    RAM
+                    Memory
                 </Typography>
                 <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 12 }}>
-                    <strong>Total : </strong>{serverLoad.ram.total}
+                    <strong>Total : </strong>{serverLoad.memory.total}
                     <br />
-                    <strong>In Use : </strong>{serverLoad.ram.inUse}
+                    <strong>In Use : </strong>{serverLoad.memory.inUse}
                     <br />
-                    <strong>Available : </strong>{serverLoad.ram.available}
+                    <strong>Available : </strong>{serverLoad.memory.available}
                     <br />
-                    <strong>Percentage : </strong>{serverLoad.ram.inUsePercentage}
+                    <strong>Percentage : </strong>{serverLoad.memory.inUsePercentage}
                     <br />
                 </Typography>
             </Box>
@@ -69,11 +69,11 @@ export default function ServerLoad() {
                     Network
                 </Typography>
                 <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 12 }}>
-                    <strong>Total : </strong>{serverLoad.network.total}
+                    <strong>Total Use : </strong>{serverLoad.network.sentData + serverLoad.network.receivedData}
                     <br />
-                    <strong>Up : </strong>{serverLoad.network.up}
+                    <strong>Sent Data : </strong>{serverLoad.network.sentData}
                     <br />
-                    <strong>Down : </strong>{serverLoad.network.down}
+                    <strong>Received Data : </strong>{serverLoad.network.receivedData}
                     <br />
                 </Typography>
             </Box>
