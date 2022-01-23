@@ -11,7 +11,7 @@ clusters:
   id: "test-cluster"
   name: "test-cluster"
   type: "logical"
-  policy: "round_robin"
+  policy: "round_robi"
   endpoints:
     id: "test-endpoint"
     name: "test-endpoint"
