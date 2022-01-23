@@ -21,7 +21,7 @@ export default function ListenerInfo(props) {
             return
         } else {
             for (let i = 0; i < listeners.length; i++) {
-                if (listeners[i].id === props.listener) {
+                if (listeners[i].name === props.listener) {
                     setListener(listeners[i])
                 }
             }
@@ -32,19 +32,19 @@ export default function ListenerInfo(props) {
         {
             label: 'General',
             content: <GeneralInfo
-                listener={listener.id}
+                listener={listener.name}
             />,
         },
         {
             label: 'Filters',
             content: <Filters
-                listener={listener.id}
+                listener={listener.name}
             />,
         },
         {
             label: 'Delete',
             content: <Delete
-                listener={listener.id}
+                listener={listener.name}
             />,
             color: '#F15741'
         }

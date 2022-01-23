@@ -16,6 +16,7 @@ func getNetworkDetails() (*ResourceUsage, error) {
 			return &ResourceUsage{
 				SentData:     convertMemoryToString(netStats.BytesSent),
 				ReceivedData: convertMemoryToString(netStats.BytesRecv),
+				TotalData:    convertMemoryToString(netStats.BytesSent + netStats.BytesRecv),
 			}, nil
 		}
 	}

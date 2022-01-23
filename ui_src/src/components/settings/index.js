@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
-import { Typography, Tab, Tabs, Box } from '@mui/material'
+import { Typography, Tab, Tabs, Box, Grid } from '@mui/material'
 import TabPanel from '../customComponents/tabpanel'
-
+import { useSelector } from 'react-redux'
+import ServerOffline from '../customComponents/serverOffline';
 
 export default function Settings() {
     const [tab, setTab] = useState(0);
-
     const changeTab = (event, newValue) => {
         setTab(newValue);
     };
+    const lbStatus = useSelector(state => state.lbStatus)
+
+    if (lbStatus !== "Active") {
+        return <ServerOffline />
+    }
 
     const settingsTabs = [
         {

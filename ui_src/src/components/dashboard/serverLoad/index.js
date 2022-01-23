@@ -1,11 +1,12 @@
 import { Paper, Typography, Grid, Box, Divider, CircularProgress } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import ServerOffline from '../../customComponents/serverOffline'
 
 export default function ServerLoad() {
     const serverLoad = useSelector(state => state.serverLoad)
 
-    const putInGrid = (children) => {
+    if (serverLoad.loading) {
         return <Grid
             container
             direction="row"
@@ -13,18 +14,12 @@ export default function ServerLoad() {
             alignItems="center"
             style={{ width: '100%', minHeight: 200 }}
         >
-            {children}
+            <CircularProgress size={25} />
         </Grid>
     }
 
-    if (serverLoad.loading) {
-        return putInGrid(<CircularProgress size={25} />)
-    }
-
     if (serverLoad.error) {
-        return putInGrid(<Typography variant="h6" align="center" >
-            Server Offline
-        </Typography>)
+        return <ServerOffline />
     }
 
     return <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', padding: 1, paddingBottom: 2 }}>
@@ -91,7 +86,7 @@ export default function ServerLoad() {
                     Network
                 </Typography>
                 <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 12 }}>
-                    <strong>Total Use : </strong>{serverLoad.network.sentData + serverLoad.network.receivedData}
+                    <strong>Total Use : </strong>{serverLoad.network.totalData}
                     <br />
                     <strong>Sent Data : </strong>{serverLoad.network.sentData}
                     <br />

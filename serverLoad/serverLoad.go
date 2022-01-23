@@ -7,6 +7,7 @@ type ResourceUsage struct {
 	InUsePercentage string `json:"inUsePercentage,omitempty"`
 	SentData        string `json:"sentData,omitempty"`
 	ReceivedData    string `json:"receivedData,omitempty"`
+	TotalData       string `json:"totalData,omitempty"`
 	ReadBytes       string `json:"readBytes,omitempty"`
 	WriteBytes      string `json:"writeBytes,omitempty"`
 	IOps            string `json:"iops,omitempty"`

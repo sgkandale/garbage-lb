@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DefaultView from './defaultView/index';
 import { Api, Dashboard as DashboardIcon, PowerSettingsNew, Settings as SettingsIcon, Speed, Storage } from '@mui/icons-material';
@@ -9,11 +9,11 @@ import Settings from './settings'
 import Test from './test'
 import GetServerLoad from './getServerLoad';
 import GetListeners from './getListeners';
+import { useSelector } from 'react-redux';
 
 export default function Navigation() {
-    const [activeNav, setActiveNav] = useState(0);
 
-    const navItems = [
+    const defaultNavItems = [
         {
             name: 'Dashboard',
             icon: <DashboardIcon />,
@@ -61,6 +61,17 @@ export default function Navigation() {
             clickHandler: () => console.log("call terminate endpoint here")
         },
     ]
+    const [activeNav, setActiveNav] = useState(0);
+    const [navItems, setNavItems] = useState(defaultNavItems.slice(0, defaultNavItems.length - 2))
+    const lbStatus = useSelector(state => state.lbStatus)
+
+    useEffect(() => {
+        if (lbStatus === "Active") {
+            setNavItems(defaultNavItems.slice(0, defaultNavItems.length))
+        } else {
+            setNavItems(defaultNavItems.slice(0, defaultNavItems.length - 2))
+        }
+    }, [lbStatus])
 
     const changeNav = (name) => {
         for (let i = 0; i < navItems.length; i++) {

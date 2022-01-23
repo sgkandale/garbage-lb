@@ -1,10 +1,16 @@
-import { Box, Grid, Button } from '@mui/material'
+import { Box, Grid, Button, Typography } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import ServerOffline from '../../customComponents/serverOffline'
 import ListenerCard from './listenerCard'
 
 export default function ListAllListeners(props) {
     const listeners = useSelector(state => state.listeners)
+    const lbStatus = useSelector(state => state.lbStatus)
+
+    if (lbStatus !== "Active") {
+        return <ServerOffline />
+    }
 
     return <Box >
         <Button
@@ -27,7 +33,7 @@ export default function ListAllListeners(props) {
                 listeners.map((eachListener) => {
                     return <ListenerCard
                         listener={eachListener}
-                        key={eachListener.id}
+                        key={eachListener.name}
                         setListener={props.setListener}
                         changeView={props.changeView}
                     />

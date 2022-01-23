@@ -106,6 +106,12 @@ const rootReducer = (state = defaultState, action) => {
                 lbStatus: action.lbStatus,
             }
 
+        case 'SET_LISTENERS':
+            return {
+                ...state,
+                listeners: action.listeners,
+            }
+
         // Return the current state if action doesn't match one this reducer cares about
         default:
             return state

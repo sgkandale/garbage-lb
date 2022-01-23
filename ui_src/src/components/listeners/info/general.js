@@ -17,7 +17,6 @@ export default function GeneralInfo(props) {
                         <strong>Port : </strong>{listeners[i].port} <br />
                         <strong>Type : </strong>{listeners[i].type} <br />
                         <strong>Listening : </strong>{listeners[i].listening ? "True" : "False"} <br />
-                        <strong>Total Filters : </strong>{listeners[i].filters.length} <br />
                     </Typography>
                 </CardContent>
             </Card>

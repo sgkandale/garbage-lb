@@ -17,15 +17,14 @@ export default function ListenerCard(props) {
             </Typography>
             <IconButton
                 onClick={() => {
+                    props.setListener(props.listener.name)
                     props.changeView('info')
-                    props.setListener(props.listener.id)
                 }}
             >
                 <InfoOutlined />
             </IconButton>
         </Grid>
         <Typography variant="body1" color="textSecondary" sx={{ paddingLeft: 2 }}>
-            <strong>Id : </strong>{props.listener.id}<br />
             <strong>Port : </strong>{props.listener.port}<br />
             <strong>Connection Type : </strong>{props.listener.type}<br />
             <strong>Listening : </strong>{props.listener.listening ? "True" : "False"}<br />
