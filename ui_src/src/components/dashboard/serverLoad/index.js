@@ -1,9 +1,31 @@
-import { Paper, Typography, Grid, Box, Divider } from '@mui/material'
+import { Paper, Typography, Grid, Box, Divider, CircularProgress } from '@mui/material'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
 export default function ServerLoad() {
     const serverLoad = useSelector(state => state.serverLoad)
+
+    const putInGrid = (children) => {
+        return <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            style={{ width: '100%', minHeight: 200 }}
+        >
+            {children}
+        </Grid>
+    }
+
+    if (serverLoad.loading) {
+        return putInGrid(<CircularProgress size={25} />)
+    }
+
+    if (serverLoad.error) {
+        return putInGrid(<Typography variant="h6" align="center" >
+            Server Offline
+        </Typography>)
+    }
 
     return <Paper elevation={0} sx={{ border: '1px solid', borderColor: 'divider', padding: 1, paddingBottom: 2 }}>
         <Typography variant="h6" >

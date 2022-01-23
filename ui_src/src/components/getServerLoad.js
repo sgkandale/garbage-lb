@@ -8,7 +8,11 @@ export default function GetServerLoad() {
     const fetchData = () => {
         axios.get('/serverLoad')
             .then(response => dispatch({ type: 'SET_SERVER_LOAD', serverLoad: response.data }))
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error)
+                dispatch({ type: 'SET_SERVER_LOAD', serverLoad: { error: true } })
+                dispatch({ type: 'SET_SERVER_OFFLINE', serverStatus: "offline" })
+            })
     }
 
     useEffect(() => {

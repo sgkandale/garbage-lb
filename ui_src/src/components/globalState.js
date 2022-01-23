@@ -79,11 +79,9 @@ const defaultState = {
         }
     ],
     serverLoad: {
-        memory: {},
-        storage: {},
-        network: {},
-        cpu: {}
-    }
+        loading: true,
+    },
+    serverStatus: "unknown"
 }
 
 // Redux Store
@@ -101,6 +99,12 @@ const rootReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 serverLoad: action.serverLoad,
+            }
+
+        case 'SET_SERVER_OFFLINE':
+            return {
+                ...state,
+                serverStatus: action.serverStatus,
             }
 
         // Return the current state if action doesn't match one this reducer cares about
