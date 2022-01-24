@@ -8,7 +8,7 @@ export default function ListFilters(props) {
     let listenerIndex = -1
 
     for (let i = 0; i < listeners.length; i++) {
-        if (listeners[i].id === props.listener) {
+        if (listeners[i].name === props.listener) {
             listenerIndex = i
         }
     }
@@ -22,24 +22,18 @@ export default function ListFilters(props) {
     }
 
     const render = () => {
-        if (listeners[listenerIndex].filters.length === 0) {
-            return <Typography variant="body2">
-                No filters have been created for this listener.
-            </Typography>
-        } else {
-            return <>
-                {
-                    listeners[listenerIndex].filters.map((filter, index) => {
-                        return <EachFilter
-                            key={index}
-                            filter={filter}
-                            setFilterToEdit={props.setFilterToEdit}
-                            setView={props.setView}
-                        />
-                    })
-                }
-            </>
-        }
+        return <>
+            {
+                listeners[listenerIndex].filters.map((filter, index) => {
+                    return <EachFilter
+                        key={index}
+                        filter={filter}
+                        setFilterToEdit={props.setFilterToEdit}
+                        setView={props.setView}
+                    />
+                })
+            }
+        </>
     }
 
     return <Box>

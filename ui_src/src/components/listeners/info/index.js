@@ -5,7 +5,7 @@ import TabPanel from '../../customComponents/tabpanel'
 import GeneralInfo from './general'
 import Delete from './delete'
 import { useSelector } from 'react-redux'
-import Filters from './filters'
+import Rules from './rules'
 
 export default function ListenerInfo(props) {
     const [tab, setTab] = useState(0);
@@ -36,8 +36,8 @@ export default function ListenerInfo(props) {
             />,
         },
         {
-            label: 'Filters',
-            content: <Filters
+            label: 'Rules',
+            content: <Rules
                 listener={listener.name}
             />,
         },

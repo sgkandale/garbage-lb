@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card, CardContent, Typography, Grid } from '@mui/material'
-import DeleteEndpoint from './deleteButton'
+import { Card, CardContent, Typography, Grid, Box } from '@mui/material'
+// import DeleteEndpoint from './deleteButton'
 
 const getColor = (status) => {
     if (status === 'Healthy') {
@@ -29,7 +29,7 @@ export default function EachEndpoint(props) {
         </Grid>
     }
 
-    return <Card>
+    return <Card style={{ marginBottom: 20 }}>
         <CardContent>
             <Grid
                 container
@@ -37,14 +37,14 @@ export default function EachEndpoint(props) {
                 justifyContent="space-between"
                 alignItems="center"
             >
-                <>
+                <Box>
                     <Typography variant="body2" color="textSecondary">
                         <strong>Name : </strong>{props.endpoint.name} <br />
                         <strong>Address : </strong>{props.endpoint.address} <br />
                         <strong>Port : </strong>{props.endpoint.port} <br />
                     </Typography>
-                </>
-                <DeleteEndpoint endpoint={props.endpoint} />
+                </Box>
+                {/* <DeleteEndpoint endpoint={props.endpoint} /> */}
             </Grid>
             {renderHealth(props.endpoint.health)}
         </CardContent>

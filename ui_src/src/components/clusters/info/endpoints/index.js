@@ -1,13 +1,13 @@
 import React from 'react'
 import { Grid } from '@mui/material'
 import EachEndpoint from './eachEndpoint'
-import NewEndpoint from './newEndpoint'
+// import NewEndpoint from './newEndpoint'
 
 export default function Endpoints(props) {
 
     return <Grid container spacing={2}>
         <Grid item xs={5} sx={{ borderRight: 1, borderColor: 'divider' }}>
-            <NewEndpoint cluster={props.cluster} />
+            {/* <NewEndpoint cluster={props.cluster} /> */}
         </Grid>
         <Grid item xs={7}>
             {

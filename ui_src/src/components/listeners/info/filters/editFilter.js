@@ -8,9 +8,9 @@ export default function EditFilter(props) {
     const listeners = useSelector(state => state.listeners)
 
     for (let i = 0; i < listeners.length; i++) {
-        if (listeners[i].id === props.listener) {
+        if (listeners[i].name === props.listener) {
             for (let j = 0; j < listeners[i].filters.length; j++) {
-                if (listeners[i].filters[j].id === props.filterToEdit) {
+                if (listeners[i].filters[j].name === props.filterToEdit) {
                     return <Box>
                         <Grid
                             container
