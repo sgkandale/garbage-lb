@@ -29,12 +29,12 @@ type ClusterHealth struct {
 }
 
 type Cluster struct {
-	Name string `json:"name,omitempty"`
-	// Type      string `json:"type,omitempty"`
+	Name            string         `json:"name,omitempty"`
 	Policy          string         `json:"policy,omitempty"`
 	Endpoints       []*Endpoint    `json:"endpoints,omitempty"`
 	Health          *ClusterHealth `json:"health,omitempty"`
 	RREndpointIndex int            `json:"-"`
+	RequestCounter  int64          `json:"requestCounter,omitempty"`
 	Mutex           sync.Mutex     `json:"-"`
 }
 

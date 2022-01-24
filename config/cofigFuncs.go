@@ -5,6 +5,8 @@ func (cluster *Cluster) IncrementRREndpointIndex() {
 	cluster.Mutex.Lock()
 	// increment the endpoint index
 	cluster.RREndpointIndex = (cluster.RREndpointIndex + 1) % len(cluster.Endpoints)
+	// increment the request counter
+	cluster.RequestCounter++
 	// unlock the endpoints
 	cluster.Mutex.Unlock()
 }
