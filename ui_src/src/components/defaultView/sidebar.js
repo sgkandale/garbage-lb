@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Drawer, Toolbar, List } from '@mui/material';
-import { Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
 const drawerWidth = 250;
 
@@ -19,9 +19,6 @@ export default function Sidebar(props) {
             <List>
                 {
                     props.navItems.map((item, index) => {
-                        if (item.type === 'divider') {
-                            return <Divider key={index} style={{ marginTop: 5, marginBottom: 5 }} />
-                        }
                         return <ListItem
                             button
                             sx={{

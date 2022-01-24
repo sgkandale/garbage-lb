@@ -39,6 +39,4 @@ export default function ListRules(props) {
             No Such Listener
         </Typography>
     </Box>
-
-    return
 }
