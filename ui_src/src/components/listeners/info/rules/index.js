@@ -1,23 +1,22 @@
-import { Box, Typography } from '@mui/material'
-import React from 'react'
-import { useSelector } from 'react-redux'
-import MapRules from './mapRules'
+import { Box } from '@mui/material'
+import React, { useState } from 'react'
+import ListRules from './listRules'
 
 export default function Rules(props) {
-    const listers = useSelector(state => state.listeners)
+    const [view, setView] = useState('list')
 
-    for (let i = 0; i < listers.length; i++) {
-        if (listers[i].name === props.listener) {
-            console.log(listers[i])
-            return <Box>
-                <MapRules rules={listers[i].filter.rules} />
-            </Box>
+    const render = () => {
+        if (view === 'list') {
+            return <ListRules
+                listener={props.listener}
+                setView={setView}
+            />
+        } else {
+            return <></>
         }
     }
 
     return <Box>
-        <Typography variant="subtitle1">
-            No Such Listener
-        </Typography>
+        {render()}
     </Box>
 }

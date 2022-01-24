@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Typography, Tab, Tabs, Box, Grid } from '@mui/material'
+import { Tab, Tabs, Box } from '@mui/material'
 import TabPanel from '../customComponents/tabpanel'
 import { useSelector } from 'react-redux'
 import ServerOffline from '../customComponents/serverOffline';
