@@ -2,14 +2,16 @@ admin:
   port: 8081
   enabled: true
 clusters:
-  - name: "test-cluster"
-    # type: "logical"
+  - name: "path-cluster"
     policy: "round_robin"
     endpoints:
       - name: "test-endpoint"
         address: "0.0.0.0"
         port: 8082
-      - name: "test-endpoint-2"
+  - name: "header-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint"
         address: "0.0.0.0"
         port: 8083
 listeners:
@@ -20,9 +22,16 @@ listeners:
   filter:
     name: "test-filter"
     rules:
-      - name: "test-rule"
+      - name: "path-rule"
         type: "path"
         value: "/"
         action: "allow"
         enabled: true
-        cluster: "test-cluster"
+        cluster: "path-cluster"
+      - name: "header-rule"
+        type: "header"
+        key: "X-Test-Header"
+        value: "test-value"
+        action: "allow"
+        enabled: true
+        cluster: "header-cluster"

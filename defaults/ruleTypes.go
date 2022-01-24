@@ -12,6 +12,11 @@ var RuleTypes = []ruleRequirement{
 		ValueRequired: true,
 		KeyRequired:   false,
 	},
+	{
+		Name:          "header",
+		ValueRequired: true,
+		KeyRequired:   true,
+	},
 }
 
 var RuleActionValues = []string{

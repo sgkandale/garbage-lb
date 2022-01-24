@@ -41,6 +41,34 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 					}
 					// continue to next rule
 					continue rulesIterator
+				case "header":
+					// get provided header name
+					requiredHeaderName := eachRule.Key
+					// get provided header value
+					requiredHeaderValue := eachRule.Value
+					// check the incoming header
+					incomingHeaderValue := r.Header.Get(requiredHeaderName)
+					// if header value matches required value
+					if incomingHeaderValue == requiredHeaderValue {
+						// if rule action is reject, return
+						if eachRule.Action == "reject" {
+							rejectionHandler(&w, r)
+							return
+						}
+						// if rule action is allow
+						if eachRule.Action == "allow" {
+							// if match, then forward the request to target cluster
+							if eachRule.TargetCluster != nil {
+								clusterHadler(&w, r, eachRule.TargetCluster)
+								return
+							} else {
+								rejectionHandler(&w, r)
+								return
+							}
+						}
+					}
+					// continue to next rule
+					continue rulesIterator
 				default:
 					rejectionHandler(&w, r)
 					return
