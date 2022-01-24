@@ -3,18 +3,20 @@ package config
 import "sync"
 
 type Listener struct {
-	Name      string  `json:"name,omitempty"`
-	Port      int     `json:"port,omitempty"`
-	Type      string  `json:"type,omitempty"`
-	Listening bool    `json:"listening,omitempty"`
-	Filter    *Filter `json:"filter,omitempty"`
+	Name                string  `json:"name,omitempty"`
+	Port                int     `json:"port,omitempty"`
+	Type                string  `json:"type,omitempty"`
+	Listening           bool    `json:"listening,omitempty"`
+	Filter              *Filter `json:"filter,omitempty"`
+	HealthCheckInterval int     `json:"healthCheckInterval,omitempty"`
 }
 
 type Endpoint struct {
-	Name    string `json:"name,omitempty"`
-	Address string `json:"address,omitempty"`
-	Port    int    `json:"port,omitempty"`
-	Healthy bool   `json:"healthy,omitempty"`
+	Name     string `json:"name,omitempty"`
+	Address  string `json:"address,omitempty"`
+	Port     int    `json:"port,omitempty"`
+	Protocol string `json:"protocol,omitempty"`
+	Healthy  bool   `json:"healthy,omitempty"`
 }
 
 type ClusterHealth struct {

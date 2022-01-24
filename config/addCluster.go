@@ -68,6 +68,7 @@ func (configStruct *ConfigStruct) AddCluster(givenCluster *Cluster) error {
 		}
 		newEndpoint.Name = givenEndpoint.Name
 		newEndpoint.Address = givenEndpoint.Address
+		// check endpoint port range
 		if givenEndpoint.Port < 1 || givenEndpoint.Port > 65535 {
 			return fmt.Errorf(
 				"port out of range for endpoint at index {%d} in cluster {%s}",
@@ -75,9 +76,18 @@ func (configStruct *ConfigStruct) AddCluster(givenCluster *Cluster) error {
 				givenCluster.Name,
 			)
 		}
+		// endpoint protocol checks
+		newEndpoint.Protocol = defaults.GetEndpointProtocol(givenEndpoint.Protocol)
+		if newEndpoint.Protocol == "" {
+			return fmt.Errorf(
+				"unsupported protocol {%s} for endpoint at index {%d} in cluster {%s}",
+				givenEndpoint.Protocol,
+				givenEndpointIndex,
+				givenCluster.Name,
+			)
+		}
 		newEndpoint.Port = givenEndpoint.Port
-		// temporary, until health checks are implemented
-		newEndpoint.Healthy = true
+		newEndpoint.Healthy = false
 		newCluster.Endpoints = append(newCluster.Endpoints, newEndpoint)
 	}
 

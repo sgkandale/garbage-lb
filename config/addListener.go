@@ -32,8 +32,27 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 	}
 	newListener.Port = givenListener.Port
 
+	// checks for health check interval
+	newListener.HealthCheckInterval = givenListener.HealthCheckInterval
+	if newListener.HealthCheckInterval == 0 {
+		newListener.HealthCheckInterval = defaults.ListenerHealthCheckInterval
+	} else if newListener.HealthCheckInterval < 0 {
+		return fmt.Errorf(
+			"invalid health check interval {%d} for listener {%s}",
+			newListener.HealthCheckInterval,
+			newListener.Name,
+		)
+	} else if newListener.HealthCheckInterval > 120 {
+		return fmt.Errorf(
+			"health check interval {%d} is too long for listener {%s}",
+			newListener.HealthCheckInterval,
+			newListener.Name,
+		)
+	}
+
 	// TLS checks pending
 
+	// type checks
 	for _, listenerType := range defaults.ListenerTypes {
 		if strings.EqualFold(listenerType, givenListener.Type) {
 			newListener.Type = listenerType

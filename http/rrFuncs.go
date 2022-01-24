@@ -1,6 +1,8 @@
 package http
 
-import "garbagelb/config"
+import (
+	"garbagelb/config"
+)
 
 func getCurrentEndpointIndex(cluster *config.Cluster) int {
 	// iterate over the endpoints to check if all of them are unhealthy

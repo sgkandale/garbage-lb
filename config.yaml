@@ -7,12 +7,11 @@ clusters:
     endpoints:
       - name: "test-endpoint"
         address: "0.0.0.0"
+        protocol: "http"
         port: 8082
-  - name: "header-cluster"
-    policy: "round_robin"
-    endpoints:
-      - name: "test-endpoint"
+      - name: "test-endpoint-2"
         address: "0.0.0.0"
+        protocol: "http"
         port: 8083
 listeners:
   name: "test-listener"
@@ -28,10 +27,3 @@ listeners:
         action: "allow"
         enabled: true
         cluster: "path-cluster"
-      - name: "header-rule"
-        type: "header"
-        key: "X-Test-Header"
-        value: "test-value"
-        action: "allow"
-        enabled: true
-        cluster: "header-cluster"
