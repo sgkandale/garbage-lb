@@ -3,15 +3,11 @@ package config
 import "sync"
 
 type Listener struct {
-	Name       string  `json:"name,omitempty"`
-	Port       int     `json:"port,omitempty"`
-	TLS        bool    `json:"tls,omitempty"`
-	CertPath   string  `json:"certPath,omitempty"`
-	KeyPath    string  `json:"keyPath,omitempty"`
-	DomainName string  `json:"domainName,omitempty"`
-	Type       string  `json:"type,omitempty"`
-	Listening  bool    `json:"listening,omitempty"`
-	Filter     *Filter `json:"filter,omitempty"`
+	Name      string  `json:"name,omitempty"`
+	Port      int     `json:"port,omitempty"`
+	Type      string  `json:"type,omitempty"`
+	Listening bool    `json:"listening,omitempty"`
+	Filter    *Filter `json:"filter,omitempty"`
 }
 
 type Endpoint struct {
