@@ -102,7 +102,7 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 				newRule.Type = eachRuleType.Name
 				if eachRuleType.ValueRequired && eachRule.Value == "" {
 					return fmt.Errorf(
-						`value id required for rule type {%s} ::::
+						`value required for rule type {%s} ::::
 							 trace :
 							 listener {%s}
 							 filter {%s}
@@ -114,9 +114,9 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 					)
 				}
 				newRule.Value = eachRule.Value
-				if eachRuleType.SubvalueRequired && eachRule.Subvalue == "" {
+				if eachRuleType.KeyRequired && eachRule.Key == "" {
 					return fmt.Errorf(
-						`subvalue id required for rule type {%s} ::::
+						`key required for rule type {%s} ::::
 							 trace :
 							 listener {%s}
 							 filter {%s}
@@ -127,7 +127,7 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 						eachRuleIndex,
 					)
 				}
-				newRule.Subvalue = eachRule.Subvalue
+				newRule.Key = eachRule.Key
 			}
 		}
 		if newRule.Type == "" {

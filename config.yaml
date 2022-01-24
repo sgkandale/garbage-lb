@@ -23,7 +23,6 @@ listeners:
       - name: "test-rule"
         type: "path"
         value: "/"
-        subvalue: ""
         action: "allow"
         enabled: true
         cluster: "test-cluster"

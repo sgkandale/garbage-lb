@@ -42,7 +42,7 @@ type Rule struct {
 	Name          string   `json:"name,omitempty"`
 	Type          string   `json:"type,omitempty"`
 	Value         string   `json:"value,omitempty"`
-	Subvalue      string   `json:"subvalue,omitempty"`
+	Key           string   `json:"key,omitempty"`
 	Action        string   `json:"action,omitempty"`
 	Enabled       bool     `json:"enabled,omitempty"`
 	Cluster       string   `json:"cluster,omitempty"`
