@@ -10,6 +10,7 @@ import Test from './test'
 import GetServerLoad from './getServerLoad';
 import GetListeners from './getListeners';
 import { useSelector } from 'react-redux';
+import GetClusters from './getClusters';
 
 export default function Navigation() {
 
@@ -91,6 +92,7 @@ export default function Navigation() {
         />
         <GetServerLoad />
         <GetListeners />
+        <GetClusters />
     </>
 
     // return <BrowserRouter>

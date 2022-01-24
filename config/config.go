@@ -1,5 +1,7 @@
 package config
 
+import "sync"
+
 type Listener struct {
 	Name       string  `json:"name,omitempty"`
 	Port       int     `json:"port,omitempty"`
@@ -29,9 +31,11 @@ type ClusterHealth struct {
 type Cluster struct {
 	Name string `json:"name,omitempty"`
 	// Type      string `json:"type,omitempty"`
-	Policy    string         `json:"policy,omitempty"`
-	Endpoints []*Endpoint    `json:"endpoints,omitempty"`
-	Health    *ClusterHealth `json:"health,omitempty"`
+	Policy          string         `json:"policy,omitempty"`
+	Endpoints       []*Endpoint    `json:"endpoints,omitempty"`
+	Health          *ClusterHealth `json:"health,omitempty"`
+	RREndpointIndex int            `json:"-"`
+	Mutex           sync.Mutex     `json:"-"`
 }
 
 type Rule struct {

@@ -33,7 +33,7 @@ export default function ListAllClusters(props) {
                 clusters.map((eachCluster) => {
                     return <ClusterCard
                         cluster={eachCluster}
-                        key={eachCluster.id}
+                        key={eachCluster.name}
                         setCluster={props.setCluster}
                         changeView={props.changeView}
                     />

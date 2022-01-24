@@ -26,58 +26,61 @@ import { createStore } from "redux";
 //     }
 // }
 
+// const dummyListeners = [
+//     {
+//         name: "Some Name",
+//         port: "8080",
+//         type: 'HTTP',
+//         id: "abcd",
+//         listening: true,
+//         filters: [
+//             {
+//                 name: "Some Filter",
+//                 id: "abcd",
+//                 rules: [
+//                     {
+//                         name: "Some Rule",
+//                         id: "abcd",
+//                         type: "Path",
+//                         value: "/some/path",
+//                         subValue: "",
+//                         action: "Allow",
+//                         enabled: true,
+//                     },
+//                 ],
+//             }
+//         ]
+//     }
+// ]
+// const dummyClusters = [
+//     {
+//         name: "Some Name",
+//         id: "abcd",
+//         type: 'Logical',
+//         policy: 'RoundRobin',
+//         timeout: '30',
+//         endpoints: [
+//             {
+//                 id: "abcd",
+//                 name: 'Localhost',
+//                 address: "0.0.0.0",
+//                 port: "8080",
+//                 health: "Healthy",
+//             }
+//         ],
+//         health: {
+//             status: 'Healthy',
+//             healthyCount: 1,
+//             unhealthyCount: 0,
+//             degradedCount: 0,
+//         },
+//     }
+// ]
+
 const defaultState = {
     lbStatus: 'Unknown',
-    listeners: [
-        {
-            name: "Some Name",
-            port: "8080",
-            type: 'HTTP',
-            id: "abcd",
-            listening: true,
-            filters: [
-                {
-                    name: "Some Filter",
-                    id: "abcd",
-                    rules: [
-                        {
-                            name: "Some Rule",
-                            id: "abcd",
-                            type: "Path",
-                            value: "/some/path",
-                            subValue: "",
-                            action: "Allow",
-                            enabled: true,
-                        },
-                    ],
-                }
-            ]
-        }
-    ],
-    clusters: [
-        {
-            name: "Some Name",
-            id: "abcd",
-            type: 'Logical',
-            policy: 'RoundRobin',
-            timeout: '30',
-            endpoints: [
-                {
-                    id: "abcd",
-                    name: 'Localhost',
-                    address: "0.0.0.0",
-                    port: "8080",
-                    health: "Healthy",
-                }
-            ],
-            health: {
-                status: 'Healthy',
-                healthyCount: 1,
-                unhealthyCount: 0,
-                degradedCount: 0,
-            },
-        }
-    ],
+    listeners: [],
+    clusters: [],
     serverLoad: {
         loading: true,
     },
@@ -110,6 +113,12 @@ const rootReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 listeners: action.listeners,
+            }
+
+        case 'SET_CLUSTERS':
+            return {
+                ...state,
+                clusters: action.clusters,
             }
 
         // Return the current state if action doesn't match one this reducer cares about

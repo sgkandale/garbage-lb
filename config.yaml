@@ -6,10 +6,12 @@ clusters:
     # type: "logical"
     policy: "round_robin"
     endpoints:
-      - id: "test-endpoint"
-        name: "test-endpoint"
+      - name: "test-endpoint"
         address: "0.0.0.0"
         port: 8082
+      - name: "test-endpoint-2"
+        address: "0.0.0.0"
+        port: 8083
 listeners:
   name: "test-listener"
   port: 8080
@@ -20,7 +22,7 @@ listeners:
     rules:
       - name: "test-rule"
         type: "path"
-        value: "/some/path"
+        value: "/"
         subvalue: ""
         action: "allow"
         enabled: true

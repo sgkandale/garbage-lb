@@ -25,9 +25,8 @@ export default function ClusterCard(props) {
             </IconButton>
         </Grid>
         <Typography variant="body1" color="textSecondary" sx={{ paddingLeft: 2 }}>
-            <strong>Id : </strong>{props.cluster.id}<br />
             <strong>Endpoints : </strong>{props.cluster.endpoints.length}<br />
-            <strong>Healthy Endpoints : </strong>{props.cluster.health.healthyCount}<br />
+            {/* <strong>Healthy Endpoints : </strong>{props.cluster.health.healthyCount}<br /> */}
         </Typography>
     </Card>
 }

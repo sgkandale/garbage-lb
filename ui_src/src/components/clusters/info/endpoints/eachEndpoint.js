@@ -40,7 +40,6 @@ export default function EachEndpoint(props) {
                 <>
                     <Typography variant="body2" color="textSecondary">
                         <strong>Name : </strong>{props.endpoint.name} <br />
-                        <strong>ID : </strong>{props.endpoint.id} <br />
                         <strong>Address : </strong>{props.endpoint.address} <br />
                         <strong>Port : </strong>{props.endpoint.port} <br />
                     </Typography>

@@ -2,9 +2,9 @@ import axios from 'axios'
 
 const instance = axios.create({
     // development
-    baseURL: 'http://localhost:8081'
+    // baseURL: 'http://localhost:8081'
     // production
-    // baseURL: ''
+    baseURL: ''
 })
 
 export default instance;

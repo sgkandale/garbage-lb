@@ -11,7 +11,6 @@ export default function GeneralInfo(props) {
                         Details
                     </Typography>
                     <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 20 }} >
-                        <strong>ID : </strong> {props.cluster.id} <br />
                         <strong>Name : </strong> {props.cluster.name} <br />
                         <strong>Type : </strong> {props.cluster.type} <br />
                         <strong>Policy : </strong> {props.cluster.policy} <br />
@@ -22,7 +21,7 @@ export default function GeneralInfo(props) {
                     <Divider orientation="vertical" />
                 </Grid>
                 <Grid item xs={5} >
-                    <Typography variant="h6" gutterBottom  >
+                    {/* <Typography variant="h6" gutterBottom  >
                         Health
                     </Typography>
                     <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 20 }} >
@@ -30,7 +29,7 @@ export default function GeneralInfo(props) {
                         <strong>Healthy Endpoints : </strong> {props.cluster.health.healthyCount} <br />
                         <strong>Unhealthy Endpoints : </strong> {props.cluster.health.unhealthyCount} <br />
                         <strong>Degraded Endpoints : </strong> {props.cluster.health.degradedCount} <br />
-                    </Typography>
+                    </Typography> */}
                 </Grid>
             </Grid>
         </CardContent>

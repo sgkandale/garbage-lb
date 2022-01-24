@@ -16,8 +16,12 @@ func getDiskDetails() (*ResourceUsage, error) {
 	var readBytes uint64 = 0
 	var writeBytes uint64 = 0
 	var iops uint64 = 0
+	diskCounter := 0
 
 	for _, diskStats := range diskStat {
+		if diskCounter > 1 {
+			break
+		}
 		readBytes += diskStats.ReadBytes
 		writeBytes += diskStats.WriteBytes
 		iops += diskStats.IopsInProgress

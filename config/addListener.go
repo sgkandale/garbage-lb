@@ -182,6 +182,7 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 				eachRuleIndex,
 			)
 		}
+		newRule.Enabled = eachRule.Enabled
 		newFilter.Rules = append(newFilter.Rules, newRule)
 	}
 

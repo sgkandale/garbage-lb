@@ -12,31 +12,8 @@ import (
 func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) {
 
 	server.Addr = fmt.Sprintf(":%d", listener.Port)
-
-	if listener.Filter != nil {
-
-	}
-
-	// targetCluster := &config.Cluster{}
-
-	// targetClusterName := listener.TargetCluster
-	// for _, cluster := range config.Config.Clusters {
-	// 	if cluster.Name == targetClusterName {
-	// 		targetCluster = cluster
-	// 	}
-	// }
-
-	// switch strings.ToLower(targetCluster.Policy) {
-	// case "round_robin":
 	server.Handler = http.HandlerFunc(server.LBHandler)
-	// default:
-	// 	log.Printf(
-	// 		"unsupported cluster policy : %s",
-	// 		targetCluster.Policy,
-	// 	)
-	// 	wg.Done()
-	// 	return
-	// }
+	server.Listener = listener
 
 	log.Println(
 		fmt.Sprintf(
