@@ -9,7 +9,7 @@ import (
 )
 
 func (server *HTTPServer) Terminate(wg *sync.WaitGroup, listener *config.Listener) {
-	log.Printf("shutting down %s\n...", listener.Name)
+	log.Printf("shutting down %s...", listener.Name)
 
 	// waitgroup is already defered to done in listen
 

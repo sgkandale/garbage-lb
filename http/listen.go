@@ -26,11 +26,17 @@ func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) 
 	)
 
 	// run health checks in loop to keep the health checker alive
-	loopCtx, cancelLoopCtx := context.WithCancel(context.TODO())
+	loopCtx, cancelLoopCtx := context.WithCancel(context.Background())
 	go func(listener *config.Listener, ctx context.Context) {
+		// wait if the server shuts down due to some error
+		time.Sleep(time.Second * 2)
 		for {
 			select {
 			case <-ctx.Done():
+				log.Printf(
+					"health checkes for listener {%s} stopped",
+					listener.Name,
+				)
 				return
 			default:
 				PerformHealthChecks(listener)
