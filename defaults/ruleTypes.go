@@ -26,6 +26,10 @@ var RuleTypes = []ruleRequirement{
 		Name:          "source_ip",
 		ValueRequired: true,
 	},
+	{
+		Name:          "source_port",
+		ValueRequired: true,
+	},
 }
 
 var RuleActionValues = []string{
