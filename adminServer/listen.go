@@ -20,10 +20,15 @@ func (webServer *AdminServer) Listen(wg *sync.WaitGroup, listener *config.Listen
 	}
 
 	muxRouter := mux.NewRouter()
-	muxRouter.HandleFunc("/", serveAppHandler(appBox)).Methods(http.MethodGet, http.MethodOptions)
+
 	muxRouter.HandleFunc("/serverLoad", GetServerLoad).Methods(http.MethodGet, http.MethodOptions)
 	muxRouter.HandleFunc("/cluster", GetClusters).Methods(http.MethodGet, http.MethodOptions)
 	muxRouter.HandleFunc("/listener", GetListeners).Methods(http.MethodGet, http.MethodOptions)
+
+	// define frontend routes at last to avoid 404
+	muxRouter.HandleFunc("/", serveAppHandler(appBox))
+	muxRouter.Handle("/static/{dir}/{file}", http.FileServer(appBox.HTTPBox()))
+	muxRouter.Handle("/{file}", http.FileServer(appBox.HTTPBox()))
 
 	webServer.Addr = fmt.Sprintf(":%d", listener.Port)
 	webServer.Handler = muxRouter
