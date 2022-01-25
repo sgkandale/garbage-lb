@@ -30,6 +30,14 @@ var RuleTypes = []ruleRequirement{
 		Name:          "source_port",
 		ValueRequired: true,
 	},
+	{
+		Name:          "referrer",
+		ValueRequired: true,
+	},
+	{
+		Name:          "referer",
+		ValueRequired: true,
+	},
 }
 
 var RuleActionValues = []string{

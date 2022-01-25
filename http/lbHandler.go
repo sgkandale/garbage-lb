@@ -179,7 +179,32 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 					}
 					// continue to next rule
 					continue rulesIterator
-				case "referrer":
+				case "referrer", "referer":
+					// get provided referrer
+					requiredReferrer := eachRule.Value
+					// get incoming referrer
+					incomingReferrer := r.Referer()
+					// check the incoming referrer
+					if incomingReferrer == requiredReferrer {
+						// if rule action is reject, return
+						if eachRule.Action == "reject" {
+							rejectionHandler(&w, r)
+							return
+						}
+						// if rule action is allow
+						if eachRule.Action == "allow" {
+							// if match, then forward the request to target cluster
+							if eachRule.TargetCluster != nil {
+								clusterHadler(&w, r, eachRule.TargetCluster)
+								return
+							} else {
+								rejectionHandler(&w, r)
+								return
+							}
+						}
+					}
+					// continue to next rule
+					continue rulesIterator
 				default:
 					rejectionHandler(&w, r)
 					return
