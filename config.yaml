@@ -16,7 +16,10 @@ clusters:
 listeners:
   name: "test-listener"
   port: 8080
-  type: "http"
+  type: "https"
+  tls: true
+  certPath: "./certs/cert.pem"
+  keyPath: "./certs/key.pem"
   listening: true
   filter:
     name: "test-filter"

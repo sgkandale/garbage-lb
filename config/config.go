@@ -6,6 +6,9 @@ type Listener struct {
 	Name                string  `json:"name,omitempty"`
 	Port                int     `json:"port,omitempty"`
 	Type                string  `json:"type,omitempty"`
+	TLS                 bool    `json:"tls,omitempty"`
+	CertPath            string  `json:"certPath,omitempty"`
+	KeyPath             string  `json:"keyPath,omitempty"`
 	Listening           bool    `json:"listening,omitempty"`
 	Filter              *Filter `json:"filter,omitempty"`
 	HealthCheckInterval int     `json:"healthCheckInterval,omitempty"`

@@ -41,7 +41,18 @@ func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) 
 
 	go func() {
 		defer wg.Done()
-		defer cancelLoopCtx()
-		log.Fatal(server.ListenAndServe())
+		// defer
+		if server.Listener.TLS {
+			log.Println(
+				server.ListenAndServeTLS(
+					server.Listener.CertPath,
+					server.Listener.KeyPath,
+				),
+			)
+		} else {
+			log.Println(server.ListenAndServe())
+		}
+		cancelLoopCtx()
+		server.Terminate(wg, server.Listener)
 	}()
 }

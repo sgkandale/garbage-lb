@@ -54,8 +54,18 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 
 	// type checks
 	for _, listenerType := range defaults.ListenerTypes {
-		if strings.EqualFold(listenerType, givenListener.Type) {
-			newListener.Type = listenerType
+		if strings.EqualFold(listenerType.Name, givenListener.Type) {
+			if listenerType.TLSRequired && (!givenListener.TLS || givenListener.CertPath == "" || givenListener.KeyPath == "") {
+				return fmt.Errorf(
+					"listener {%s} requires TLS but not provided",
+					givenListener.Name,
+				)
+			}
+			newListener.Type = listenerType.Name
+			newListener.TLS = listenerType.TLSRequired
+			newListener.CertPath = givenListener.CertPath
+			newListener.KeyPath = givenListener.KeyPath
+			break
 		}
 	}
 	if newListener.Type == "" {
