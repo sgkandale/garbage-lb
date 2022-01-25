@@ -69,6 +69,10 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 					}
 					// continue to next rule
 					continue rulesIterator
+				case "cookie":
+				case "source_ip":
+				case "source_port":
+				case "referrer":
 				default:
 					rejectionHandler(&w, r)
 					return

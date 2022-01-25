@@ -2,7 +2,7 @@ admin:
   port: 8081
   enabled: true
 clusters:
-  - name: "path-cluster"
+  - name: "default-cluster"
     policy: "round_robin"
     endpoints:
       - name: "test-endpoint"
@@ -16,7 +16,7 @@ clusters:
 listeners:
   name: "test-listener"
   port: 8080
-  type: "https"
+  type: "http"
   tls: true
   certPath: "./certs/cert.pem"
   keyPath: "./certs/key.pem"
@@ -24,9 +24,9 @@ listeners:
   filter:
     name: "test-filter"
     rules:
-      - name: "path-rule"
+      - name: "default-rule"
         type: "path"
         value: "/"
         action: "allow"
         enabled: true
-        cluster: "path-cluster"
+        cluster: "default-cluster"
