@@ -22,6 +22,10 @@ var RuleTypes = []ruleRequirement{
 		ValueRequired: true,
 		KeyRequired:   true,
 	},
+	{
+		Name:          "source_ip",
+		ValueRequired: true,
+	},
 }
 
 var RuleActionValues = []string{

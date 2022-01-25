@@ -3,6 +3,7 @@ package http
 import (
 	"log"
 	"net/http"
+	"strings"
 )
 
 func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
@@ -114,6 +115,37 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 					// continue to next rule
 					continue rulesIterator
 				case "source_ip":
+					// get provided source ip
+					requiredSourceIP := eachRule.Value
+					// get incoming source ip
+					incomingSourceIP := r.RemoteAddr
+					// split incoming source ip at :
+					splittedSourceIP := strings.Split(incomingSourceIP, ":")
+					if len(splittedSourceIP) > 1 {
+						// get the ip
+						incomingSourceIP = splittedSourceIP[0]
+					}
+					// check the incoming source ip
+					if incomingSourceIP == requiredSourceIP {
+						// if rule action is reject, return
+						if eachRule.Action == "reject" {
+							rejectionHandler(&w, r)
+							return
+						}
+						// if rule action is allow
+						if eachRule.Action == "allow" {
+							// if match, then forward the request to target cluster
+							if eachRule.TargetCluster != nil {
+								clusterHadler(&w, r, eachRule.TargetCluster)
+								return
+							} else {
+								rejectionHandler(&w, r)
+								return
+							}
+						}
+					}
+					// continue to next rule
+					continue rulesIterator
 				case "source_port":
 				case "referrer":
 				default:

@@ -9,7 +9,7 @@ clusters:
         address: "0.0.0.0"
         protocol: "http"
         port: 8082
-  - name: "cookie-cluster"
+  - name: "source_ip-cluster"
     policy: "round_robin"
     endpoints:
       - name: "test-endpoint"
@@ -27,13 +27,12 @@ listeners:
   filter:
     name: "test-filter"
     rules:
-      - name: "cookie-rule"
-        type: "cookie"
-        key: "Cookie_1"
-        value: "value"
+      - name: "source_ip-rule"
+        type: "source_ip"
+        value: "127.0.0.1"
         action: "allow"
         enabled: true
-        cluster: "cookie-cluster"
+        cluster: "source_ip-cluster"
       - name: "path-rule"
         type: "path"
         value: "/"
