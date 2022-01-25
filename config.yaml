@@ -2,14 +2,17 @@ admin:
   port: 8081
   enabled: true
 clusters:
-  - name: "default-cluster"
+  - name: "path-cluster"
     policy: "round_robin"
     endpoints:
       - name: "test-endpoint"
         address: "0.0.0.0"
         protocol: "http"
         port: 8082
-      - name: "test-endpoint-2"
+  - name: "cookie-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint"
         address: "0.0.0.0"
         protocol: "http"
         port: 8083
@@ -24,9 +27,16 @@ listeners:
   filter:
     name: "test-filter"
     rules:
-      - name: "default-rule"
+      - name: "cookie-rule"
+        type: "cookie"
+        key: "Cookie_1"
+        value: "value"
+        action: "allow"
+        enabled: true
+        cluster: "cookie-cluster"
+      - name: "path-rule"
         type: "path"
         value: "/"
         action: "allow"
         enabled: true
-        cluster: "default-cluster"
+        cluster: "path-cluster"

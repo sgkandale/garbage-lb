@@ -1,6 +1,7 @@
 package http
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -70,6 +71,48 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 					// continue to next rule
 					continue rulesIterator
 				case "cookie":
+					// get provided cookie name
+					requiredCookieName := eachRule.Key
+					// get provided cookie value
+					requiredCookieValue := eachRule.Value
+					// check the incoming cookie
+					incomingCookie, err := r.Cookie(requiredCookieName)
+					if err != nil {
+						if err == http.ErrNoCookie {
+							// if no cookie, then continue to next rule
+							continue rulesIterator
+						} else {
+							log.Printf(
+								"error reading cookie {%s} for listener {%s} : %s",
+								requiredCookieName,
+								server.Listener.Name,
+								err.Error(),
+							)
+							rejectionHandler(&w, r)
+							return
+						}
+					}
+					// if cookie value matches required value
+					if incomingCookie.Value == requiredCookieValue {
+						// if rule action is reject, return
+						if eachRule.Action == "reject" {
+							rejectionHandler(&w, r)
+							return
+						}
+						// if rule action is allow
+						if eachRule.Action == "allow" {
+							// if match, then forward the request to target cluster
+							if eachRule.TargetCluster != nil {
+								clusterHadler(&w, r, eachRule.TargetCluster)
+								return
+							} else {
+								rejectionHandler(&w, r)
+								return
+							}
+						}
+					}
+					// continue to next rule
+					continue rulesIterator
 				case "source_ip":
 				case "source_port":
 				case "referrer":

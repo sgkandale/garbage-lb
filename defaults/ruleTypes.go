@@ -17,6 +17,11 @@ var RuleTypes = []ruleRequirement{
 		ValueRequired: true,
 		KeyRequired:   true,
 	},
+	{
+		Name:          "cookie",
+		ValueRequired: true,
+		KeyRequired:   true,
+	},
 }
 
 var RuleActionValues = []string{
