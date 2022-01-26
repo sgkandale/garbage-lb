@@ -20,20 +20,21 @@ type Endpoint struct {
 	Port     int    `json:"port,omitempty"`
 	Protocol string `json:"protocol,omitempty"`
 	Healthy  bool   `json:"healthy,omitempty"`
+	LastSeen int64  `json:"lastSeen"`
 }
 
 type ClusterHealth struct {
-	Status         string `json:"status,omitempty"`
-	HealthyCount   int    `json:"healthyCount,omitempty"`
-	UnhealthyCount int    `json:"unhealthyCount,omitempty"`
-	DegradedCount  int    `json:"degradedCount,omitempty"`
+	Status         string `json:"status"`
+	HealthyCount   int    `json:"healthyCount"`
+	UnhealthyCount int    `json:"unhealthyCount"`
+	DegradedCount  int    `json:"degradedCount"`
 }
 
 type Cluster struct {
 	Name            string         `json:"name,omitempty"`
 	Policy          string         `json:"policy,omitempty"`
 	Endpoints       []*Endpoint    `json:"endpoints,omitempty"`
-	Health          *ClusterHealth `json:"health,omitempty"`
+	Health          *ClusterHealth `json:"health"`
 	RREndpointIndex int            `json:"-"`
 	RequestCounter  int64          `json:"requestCounter,omitempty"`
 	Mutex           sync.Mutex     `json:"-"`

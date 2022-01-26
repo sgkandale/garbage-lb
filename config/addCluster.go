@@ -91,6 +91,13 @@ func (configStruct *ConfigStruct) AddCluster(givenCluster *Cluster) error {
 		newCluster.Endpoints = append(newCluster.Endpoints, newEndpoint)
 	}
 
+	newCluster.Health = &ClusterHealth{
+		Status:         "Unknown",
+		HealthyCount:   0,
+		UnhealthyCount: len(newCluster.Endpoints),
+		DegradedCount:  0,
+	}
+
 	configStruct.Clusters = append(configStruct.Clusters, newCluster)
 
 	return nil

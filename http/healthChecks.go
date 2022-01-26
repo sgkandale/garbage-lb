@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"garbagelb/config"
+	"garbagelb/defaults"
 )
 
 var client = goHttp.Client{
@@ -64,10 +65,43 @@ func PerformHealthChecks(listener *config.Listener) {
 									endpoint.Healthy = false
 								} else {
 									endpoint.Healthy = true
+									endpoint.LastSeen = time.Now().Unix()
 								}
 							}
 						}(endpoint)
 					}
+					endpointsWaitGroup.Wait()
+					totalEndpoints := 0
+					if rule.TargetCluster.Endpoints != nil {
+						totalEndpoints = len(rule.TargetCluster.Endpoints)
+					}
+					healthyEndpoints := 0
+					unhealthyEndpoints := 0
+					degradedCount := 0
+					for _, endpoint := range rule.TargetCluster.Endpoints {
+						if endpoint.Healthy {
+							healthyEndpoints++
+						} else {
+							if endpoint.LastSeen < time.Now().Unix()-defaults.EndpointDegradationInterval {
+								degradedCount++
+							} else {
+								unhealthyEndpoints++
+							}
+						}
+					}
+					// get the percentage of healthy endpoints
+					var healthyPercentage float64 = 0
+					if totalEndpoints > 0 {
+						healthyPercentage = float64(healthyEndpoints) / float64(totalEndpoints)
+					}
+					if healthyPercentage < defaults.HealthyClusterThreshold {
+						rule.TargetCluster.Health.Status = "Unhealthy"
+					} else {
+						rule.TargetCluster.Health.Status = "Healthy"
+					}
+					rule.TargetCluster.Health.HealthyCount = healthyEndpoints
+					rule.TargetCluster.Health.UnhealthyCount = unhealthyEndpoints
+					rule.TargetCluster.Health.DegradedCount = degradedCount
 				}
 			}
 		}

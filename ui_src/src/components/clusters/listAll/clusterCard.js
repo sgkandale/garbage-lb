@@ -4,7 +4,7 @@ import { InfoOutlined } from '@mui/icons-material'
 
 export default function ClusterCard(props) {
 
-    return <Card sx={{ width: '100%', maxWidth: 500, padding: 2 }} elevation={3}>
+    return <Card sx={{ width: '100%', maxWidth: 500, padding: 2, margin: '5px' }} elevation={3}>
         <Grid
             container
             direction="row"

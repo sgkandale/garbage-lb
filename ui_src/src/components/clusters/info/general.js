@@ -3,6 +3,18 @@ import { Card, CardContent, Typography, Grid, Divider } from '@mui/material'
 
 export default function GeneralInfo(props) {
 
+    const renderHealth = () => {
+        //     if (props.cluster.health) {
+        //     return 
+        //     }
+        //     return <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 20 }} >
+        //     <strong>Status : </strong> Unknown <br />
+        //     <strong>Healthy Endpoints : </strong> {props.cluster.health.healthyCount} <br />
+        //     <strong>Unhealthy Endpoints : </strong> {props.cluster.health.unhealthyCount} <br />
+        //     <strong>Degraded Endpoints : </strong> {props.cluster.health.degradedCount} <br />
+        // </Typography>
+    }
+
     return <Card elevation={0} sx={{ border: 1, borderColor: 'divider' }}>
         <CardContent>
             <Grid container spacing={2} >
@@ -23,12 +35,16 @@ export default function GeneralInfo(props) {
                     <Typography variant="h6" gutterBottom  >
                         Health
                     </Typography>
-                    {/* <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 20 }} >
-                        <strong>Status : </strong> {props.cluster.health.status} <br />
-                        <strong>Healthy Endpoints : </strong> {props.cluster.health.healthyCount} <br />
-                        <strong>Unhealthy Endpoints : </strong> {props.cluster.health.unhealthyCount} <br />
-                        <strong>Degraded Endpoints : </strong> {props.cluster.health.degradedCount} <br />
-                    </Typography> */}
+                    <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 20 }} >
+                        {
+                            props.cluster.health ? <>
+                                <strong>Status : </strong> {props.cluster.health.status} <br />
+                                <strong>Healthy Endpoints : </strong> {props.cluster.health.healthyCount} <br />
+                                <strong>Unhealthy Endpoints : </strong> {props.cluster.health.unhealthyCount} <br />
+                                <strong>Degraded Endpoints : </strong> {props.cluster.health.degradedCount} <br />
+                            </> : <></>
+                        }
+                    </Typography>
                 </Grid>
             </Grid>
         </CardContent>

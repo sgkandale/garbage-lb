@@ -34,7 +34,7 @@ func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) 
 			select {
 			case <-ctx.Done():
 				log.Printf(
-					"health checkes for listener {%s} stopped",
+					"health checks for listener {%s} stopped",
 					listener.Name,
 				)
 				return
