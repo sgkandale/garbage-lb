@@ -30,7 +30,7 @@ func (webServer *AdminServer) Listen(wg *sync.WaitGroup, listener *config.Listen
 	muxRouter.Handle("/static/{dir}/{file}", http.FileServer(appBox.HTTPBox()))
 	muxRouter.Handle("/{file}", http.FileServer(appBox.HTTPBox()))
 
-	webServer.Addr = fmt.Sprintf(":%d", listener.Port)
+	webServer.Addr = fmt.Sprintf("localhost:%d", listener.Port)
 	webServer.Handler = muxRouter
 
 	log.Printf(
