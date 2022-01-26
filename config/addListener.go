@@ -55,16 +55,22 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 	// type checks
 	for _, listenerType := range defaults.ListenerTypes {
 		if strings.EqualFold(listenerType.Name, givenListener.Type) {
-			if listenerType.TLSRequired && (!givenListener.TLS || givenListener.CertPath == "" || givenListener.KeyPath == "") {
+			newListener.Type = listenerType.Name
+			newListener.TLS = givenListener.TLS
+			newListener.CertPath = givenListener.CertPath
+			newListener.KeyPath = givenListener.KeyPath
+			if newListener.TLS && newListener.CertPath == "" {
 				return fmt.Errorf(
-					"listener {%s} requires TLS but not provided",
+					"listener {%s} has TLS enabled but certPath is not provided",
 					givenListener.Name,
 				)
 			}
-			newListener.Type = listenerType.Name
-			newListener.TLS = listenerType.TLSRequired
-			newListener.CertPath = givenListener.CertPath
-			newListener.KeyPath = givenListener.KeyPath
+			if newListener.TLS && newListener.KeyPath == "" {
+				return fmt.Errorf(
+					"listener {%s} has TLS enabled but keyPath is not provided",
+					givenListener.Name,
+				)
+			}
 			break
 		}
 	}
@@ -126,7 +132,15 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 		}
 		newRule.Name = eachRule.Name
 		// check rule types and values
-		for _, eachRuleType := range defaults.RuleTypes {
+		listenerRuleTypes := defaults.RuleTypes[newListener.Type]
+		if listenerRuleTypes == nil {
+			return fmt.Errorf(
+				"unsupported listener type {%s} for listener {%s}",
+				newListener.Type,
+				newListener.Name,
+			)
+		}
+		for _, eachRuleType := range listenerRuleTypes {
 			if strings.EqualFold(eachRuleType.Name, eachRule.Type) {
 				newRule.Type = eachRuleType.Name
 				if eachRuleType.ValueRequired && eachRule.Value == "" {

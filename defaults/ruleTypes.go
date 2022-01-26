@@ -6,41 +6,43 @@ type ruleRequirement struct {
 	KeyRequired   bool
 }
 
-var RuleTypes = []ruleRequirement{
-	{
-		Name:          "path",
-		ValueRequired: true,
-		KeyRequired:   false,
-	},
-	{
-		Name:          "header",
-		ValueRequired: true,
-		KeyRequired:   true,
-	},
-	{
-		Name:          "cookie",
-		ValueRequired: true,
-		KeyRequired:   true,
-	},
-	{
-		Name:          "source_ip",
-		ValueRequired: true,
-	},
-	{
-		Name:          "source_port",
-		ValueRequired: true,
-	},
-	{
-		Name:          "referrer",
-		ValueRequired: true,
-	},
-	{
-		Name:          "referer",
-		ValueRequired: true,
-	},
-	{
-		Name:          "method",
-		ValueRequired: true,
+var RuleTypes = map[string][]ruleRequirement{
+	"http": {
+		{
+			Name:          "path",
+			ValueRequired: true,
+			KeyRequired:   false,
+		},
+		{
+			Name:          "header",
+			ValueRequired: true,
+			KeyRequired:   true,
+		},
+		{
+			Name:          "cookie",
+			ValueRequired: true,
+			KeyRequired:   true,
+		},
+		{
+			Name:          "source_ip",
+			ValueRequired: true,
+		},
+		{
+			Name:          "source_port",
+			ValueRequired: true,
+		},
+		{
+			Name:          "referrer",
+			ValueRequired: true,
+		},
+		{
+			Name:          "referer",
+			ValueRequired: true,
+		},
+		{
+			Name:          "method",
+			ValueRequired: true,
+		},
 	},
 }
 
