@@ -34,7 +34,7 @@ func (webServer *AdminServer) Listen(wg *sync.WaitGroup, listener *config.Listen
 	webServer.Handler = muxRouter
 
 	log.Printf(
-		"Admin UI Server starting at port %d...\n",
+		"Admin UI Server starting at port %d",
 		listener.Port,
 	)
 
