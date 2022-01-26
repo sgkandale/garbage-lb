@@ -28,8 +28,8 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 								rejectionHandler(&w, r)
 								return
 							}
-							// if rule action is allow
-							if eachRule.Action == "allow" {
+							// if rule action is forward
+							if eachRule.Action == "forward" {
 								// if match, then forward the request to target cluster
 								if eachRule.TargetCluster != nil {
 									clusterHadler(&w, r, eachRule.TargetCluster)
@@ -57,8 +57,8 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 							rejectionHandler(&w, r)
 							return
 						}
-						// if rule action is allow
-						if eachRule.Action == "allow" {
+						// if rule action is forward
+						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
 								clusterHadler(&w, r, eachRule.TargetCluster)
@@ -100,8 +100,8 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 							rejectionHandler(&w, r)
 							return
 						}
-						// if rule action is allow
-						if eachRule.Action == "allow" {
+						// if rule action is forward
+						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
 								clusterHadler(&w, r, eachRule.TargetCluster)
@@ -132,8 +132,8 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 							rejectionHandler(&w, r)
 							return
 						}
-						// if rule action is allow
-						if eachRule.Action == "allow" {
+						// if rule action is forward
+						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
 								clusterHadler(&w, r, eachRule.TargetCluster)
@@ -165,8 +165,8 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 							rejectionHandler(&w, r)
 							return
 						}
-						// if rule action is allow
-						if eachRule.Action == "allow" {
+						// if rule action is forward
+						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
 								clusterHadler(&w, r, eachRule.TargetCluster)
@@ -191,8 +191,8 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 							rejectionHandler(&w, r)
 							return
 						}
-						// if rule action is allow
-						if eachRule.Action == "allow" {
+						// if rule action is forward
+						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
 								clusterHadler(&w, r, eachRule.TargetCluster)

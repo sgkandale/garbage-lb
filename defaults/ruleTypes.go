@@ -41,6 +41,6 @@ var RuleTypes = []ruleRequirement{
 }
 
 var RuleActionValues = []string{
-	"allow",
+	"forward",
 	"reject",
 }

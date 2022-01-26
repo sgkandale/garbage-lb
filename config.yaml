@@ -30,12 +30,12 @@ listeners:
       - name: "source_ip-rule"
         type: "source_ip"
         value: "127.0.0.1"
-        action: "allow"
+        action: "forward"
         enabled: true
         cluster: "source_ip-cluster"
       - name: "path-rule"
         type: "path"
         value: "/"
-        action: "allow"
+        action: "forward"
         enabled: true
         cluster: "path-cluster"
