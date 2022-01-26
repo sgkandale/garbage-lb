@@ -2,15 +2,21 @@ package http
 
 import (
 	"fmt"
-	"net/http"
+	goHttp "net/http"
 	"net/http/httputil"
 	"net/url"
 
 	"garbagelb/config"
 )
 
-func forwardRequest(w *http.ResponseWriter, r *http.Request, endpoint *config.Endpoint) {
+func forwardRequest(w *goHttp.ResponseWriter, r *goHttp.Request, endpoint *config.Endpoint) {
 
+	// increment active connections counter
+	endpoint.Mutex.Lock()
+	endpoint.ActiveConnectionCount++
+	endpoint.Mutex.Unlock()
+
+	// forward request
 	reverseProxy := httputil.NewSingleHostReverseProxy(
 		&url.URL{
 			Host:   fmt.Sprintf("%s:%d", endpoint.Address, endpoint.Port),
@@ -18,4 +24,9 @@ func forwardRequest(w *http.ResponseWriter, r *http.Request, endpoint *config.En
 		},
 	)
 	reverseProxy.ServeHTTP(*w, r)
+
+	// decrement active connections counter
+	endpoint.Mutex.Lock()
+	endpoint.ActiveConnectionCount--
+	endpoint.Mutex.Unlock()
 }

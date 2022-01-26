@@ -9,30 +9,17 @@ clusters:
         address: "0.0.0.0"
         protocol: "http"
         port: 8082
-  - name: "source_ip-cluster"
-    policy: "round_robin"
-    endpoints:
-      - name: "test-endpoint"
-        address: "0.0.0.0"
-        protocol: "http"
-        port: 8083
 listeners:
   name: "test-listener"
   port: 8080
   type: "http"
-  tls: true
+  tls: false
   certPath: "./certs/cert.pem"
   keyPath: "./certs/key.pem"
   listening: true
   filter:
     name: "test-filter"
     rules:
-      - name: "source_ip-rule"
-        type: "source_ip"
-        value: "127.0.0.1"
-        action: "forward"
-        enabled: true
-        cluster: "source_ip-cluster"
       - name: "path-rule"
         type: "path"
         value: "/"

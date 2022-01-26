@@ -1,13 +1,13 @@
 package http
 
 import (
-	"net/http"
+	goHttp "net/http"
 
 	"garbagelb/config"
 )
 
 type HTTPServer struct {
-	http.Server
+	goHttp.Server
 	Listener *config.Listener
 }
 

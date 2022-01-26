@@ -1,10 +1,10 @@
 package http
 
 import (
-	"net/http"
+	goHttp "net/http"
 )
 
-func rejectionHandler(w *http.ResponseWriter, r *http.Request) {
-	(*w).WriteHeader(http.StatusServiceUnavailable)
+func rejectionHandler(w *goHttp.ResponseWriter, r *goHttp.Request) {
+	(*w).WriteHeader(goHttp.StatusServiceUnavailable)
 	(*w).Write([]byte("Service Unavailable"))
 }

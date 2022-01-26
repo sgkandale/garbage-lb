@@ -2,11 +2,11 @@ package http
 
 import (
 	"log"
-	"net/http"
+	goHttp "net/http"
 	"strings"
 )
 
-func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
+func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) {
 
 	if server.Listener.Filter != nil {
 	rulesIterator:
@@ -79,7 +79,7 @@ func (server *HTTPServer) LBHandler(w http.ResponseWriter, r *http.Request) {
 					// check the incoming cookie
 					incomingCookie, err := r.Cookie(requiredCookieName)
 					if err != nil {
-						if err == http.ErrNoCookie {
+						if err == goHttp.ErrNoCookie {
 							// if no cookie, then continue to next rule
 							continue rulesIterator
 						} else {

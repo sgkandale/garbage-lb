@@ -1,8 +1,9 @@
 package http
 
 import (
-	"garbagelb/config"
 	"math/rand"
+
+	"garbagelb/config"
 )
 
 func getCurrentEndpointIndex(cluster *config.Cluster) int {
@@ -49,4 +50,22 @@ func getRandomEndpointIndex(cluster *config.Cluster) int {
 	randomEndpointIndex := healthyEndpoints[rand.Intn(len(healthyEndpoints))]
 	return randomEndpointIndex
 
+}
+
+func getLeastConnectionsEndpointIndex(cluster *config.Cluster) int {
+
+	leastConnectionsEndpointIndex := -1
+	leastConnections := -1
+
+	// iterate over the endpoints
+	for endpointIndex, endpoint := range cluster.Endpoints {
+		if endpoint.Healthy {
+			if leastConnections == -1 || endpoint.ActiveConnectionCount < leastConnections {
+				leastConnections = endpoint.ActiveConnectionCount
+				leastConnectionsEndpointIndex = endpointIndex
+			}
+		}
+	}
+
+	return leastConnectionsEndpointIndex
 }

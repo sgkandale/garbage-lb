@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"net/http"
+	goHttp "net/http"
 	"sync"
 	"time"
 
@@ -14,7 +14,7 @@ import (
 func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) {
 
 	server.Addr = fmt.Sprintf(":%d", listener.Port)
-	server.Handler = http.HandlerFunc(server.LBHandler)
+	server.Handler = goHttp.HandlerFunc(server.LBHandler)
 	server.Listener = listener
 
 	log.Println(

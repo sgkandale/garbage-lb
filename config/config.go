@@ -15,12 +15,14 @@ type Listener struct {
 }
 
 type Endpoint struct {
-	Name     string `json:"name,omitempty"`
-	Address  string `json:"address,omitempty"`
-	Port     int    `json:"port,omitempty"`
-	Protocol string `json:"protocol,omitempty"`
-	Healthy  bool   `json:"healthy,omitempty"`
-	LastSeen int64  `json:"lastSeen"`
+	Name                  string     `json:"name,omitempty"`
+	Address               string     `json:"address,omitempty"`
+	Port                  int        `json:"port,omitempty"`
+	Protocol              string     `json:"protocol,omitempty"`
+	Healthy               bool       `json:"healthy,omitempty"`
+	ActiveConnectionCount int        `json:"activeConnectionCount,omitempty"`
+	LastSeen              int64      `json:"lastSeen"`
+	Mutex                 sync.Mutex `json:"-"`
 }
 
 type ClusterHealth struct {
