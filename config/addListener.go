@@ -50,12 +50,11 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 		)
 	}
 
-	// TLS checks pending
-
 	// type checks
 	for _, listenerType := range defaults.ListenerTypes {
 		if strings.EqualFold(listenerType.Name, givenListener.Type) {
 			newListener.Type = listenerType.Name
+			// TLS checks
 			newListener.TLS = givenListener.TLS
 			newListener.CertPath = givenListener.CertPath
 			newListener.KeyPath = givenListener.KeyPath
