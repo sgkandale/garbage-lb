@@ -38,6 +38,10 @@ var RuleTypes = []ruleRequirement{
 		Name:          "referer",
 		ValueRequired: true,
 	},
+	{
+		Name:          "method",
+		ValueRequired: true,
+	},
 }
 
 var RuleActionValues = []string{
