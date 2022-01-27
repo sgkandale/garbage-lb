@@ -26,22 +26,32 @@ var RuleTypes = map[string][]ruleRequirement{
 		{
 			Name:          "source_ip",
 			ValueRequired: true,
+			KeyRequired:   false,
 		},
 		{
 			Name:          "source_port",
 			ValueRequired: true,
+			KeyRequired:   false,
 		},
 		{
 			Name:          "referrer",
 			ValueRequired: true,
+			KeyRequired:   false,
 		},
 		{
 			Name:          "referer",
 			ValueRequired: true,
+			KeyRequired:   false,
 		},
 		{
 			Name:          "method",
 			ValueRequired: true,
+			KeyRequired:   false,
+		},
+		{
+			Name:          "host",
+			ValueRequired: true,
+			KeyRequired:   false,
 		},
 	},
 }

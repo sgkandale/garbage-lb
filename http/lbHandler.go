@@ -231,6 +231,32 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					}
 					// continue to next rule
 					continue rulesIterator
+				case "host":
+					// get provided host
+					requiredHost := eachRule.Value
+					// get incoming host
+					incomingHost := r.Host
+					// check the incoming host
+					if strings.EqualFold(incomingHost, requiredHost) {
+						// if rule action is reject, return
+						if eachRule.Action == "reject" {
+							rejectionHandler(&w, r)
+							return
+						}
+						// if rule action is forward
+						if eachRule.Action == "forward" {
+							// if match, then forward the request to target cluster
+							if eachRule.TargetCluster != nil {
+								clusterHadler(&w, r, eachRule.TargetCluster)
+								return
+							} else {
+								rejectionHandler(&w, r)
+								return
+							}
+						}
+					}
+					// continue to next rule
+					continue rulesIterator
 				default:
 					rejectionHandler(&w, r)
 					return

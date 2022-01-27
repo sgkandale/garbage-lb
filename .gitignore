@@ -2,6 +2,9 @@
 *.exe
 *.
 
+# config
+config.yaml
+
 # From UI src
 
 # dependencies

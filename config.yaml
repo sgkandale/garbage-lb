@@ -21,7 +21,7 @@ listeners:
     name: "test-filter"
     rules:
       - name: "path-rule"
-        type: "path"
+        type: "host"
         value: "/"
         action: "forward"
         enabled: true
