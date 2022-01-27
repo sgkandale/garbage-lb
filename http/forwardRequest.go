@@ -14,6 +14,7 @@ func forwardRequest(w *goHttp.ResponseWriter, r *goHttp.Request, endpoint *confi
 	// increment active connections counter
 	endpoint.Mutex.Lock()
 	endpoint.ActiveConnectionCount++
+	endpoint.TotalRequestCount++
 	endpoint.Mutex.Unlock()
 
 	// forward request

@@ -21,6 +21,7 @@ type Endpoint struct {
 	Protocol              string     `json:"protocol,omitempty"`
 	Healthy               bool       `json:"healthy,omitempty"`
 	ActiveConnectionCount int        `json:"activeConnectionCount,omitempty"`
+	TotalRequestCount     int        `json:"totalRequestCount,omitempty"`
 	LastSeen              int64      `json:"lastSeen"`
 	Mutex                 sync.Mutex `json:"-"`
 }
