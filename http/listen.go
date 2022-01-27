@@ -13,8 +13,8 @@ import (
 
 func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) {
 
-	server.Addr = fmt.Sprintf(":%d", listener.Port)
-	server.Handler = goHttp.HandlerFunc(server.LBHandler)
+	server.Server.Addr = fmt.Sprintf(":%d", listener.Port)
+	server.Server.Handler = goHttp.HandlerFunc(server.LBHandler)
 	server.Listener = listener
 
 	log.Println(
@@ -50,13 +50,13 @@ func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) 
 		// defer
 		if server.Listener.TLS {
 			log.Println(
-				server.ListenAndServeTLS(
+				server.Server.ListenAndServeTLS(
 					server.Listener.CertPath,
 					server.Listener.KeyPath,
 				),
 			)
 		} else {
-			log.Println(server.ListenAndServe())
+			log.Println(server.Server.ListenAndServe())
 		}
 		cancelLoopCtx()
 		server.Terminate(wg, server.Listener)

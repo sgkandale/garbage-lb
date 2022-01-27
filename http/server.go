@@ -7,7 +7,7 @@ import (
 )
 
 type HTTPServer struct {
-	goHttp.Server
+	Server   goHttp.Server
 	Listener *config.Listener
 }
 

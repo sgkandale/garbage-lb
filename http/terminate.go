@@ -13,7 +13,7 @@ func (server *HTTPServer) Terminate(wg *sync.WaitGroup, listener *config.Listene
 
 	// waitgroup is already defered to done in listen
 
-	err := server.Shutdown(context.TODO())
+	err := server.Server.Shutdown(context.TODO())
 	if err != nil {
 		panic(err)
 	}
