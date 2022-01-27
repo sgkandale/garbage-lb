@@ -1,9 +1,13 @@
 package listener
 
 import (
+	"fmt"
+	"log"
+
 	"garbagelb/adminServer"
 	"garbagelb/config"
 	"garbagelb/http"
+	"garbagelb/tcp"
 )
 
 func ListListeners() int {
@@ -28,8 +32,20 @@ func ListListeners() int {
 	for _, listener := range config.Config.Listeners {
 		totalListeners++
 		newListener := Listener{
-			ServerHandler:   &http.Server,
 			ListenerDetails: listener,
+		}
+		switch listener.Type {
+		case "http":
+			newListener.ServerHandler = &http.Server
+		case "tcp", "tcp4", "tcp6":
+			newListener.ServerHandler = &tcp.Server
+		default:
+			log.Fatal(
+				fmt.Sprintf(
+					"listener type {%s} is not supported",
+					listener.Type,
+				),
+			)
 		}
 		Listeners = append(Listeners, &newListener)
 	}
