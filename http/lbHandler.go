@@ -8,6 +8,28 @@ import (
 
 func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) {
 
+	// get max connections count
+	maxAllowedConnections := server.Listener.MaxConnections
+	if maxAllowedConnections > 0 {
+		// compare active connections count
+		if server.Listener.ActiveConnections >= maxAllowedConnections {
+			rejectionHandler(&w, r)
+			return
+		} else {
+			// increment active connections count
+			server.Listener.Mutex.Lock()
+			server.Listener.ActiveConnections++
+			server.Listener.Mutex.Unlock()
+		}
+
+		// decrement active connections on exit
+		defer func() {
+			server.Listener.Mutex.Lock()
+			server.Listener.ActiveConnections--
+			server.Listener.Mutex.Unlock()
+		}()
+	}
+
 	if server.Listener.Filter != nil {
 	rulesIterator:
 		// iterate over the rules

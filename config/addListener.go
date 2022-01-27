@@ -50,6 +50,16 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 		)
 	}
 
+	// max connections checks
+	newListener.MaxConnections = givenListener.MaxConnections
+	if newListener.MaxConnections < 0 {
+		return fmt.Errorf(
+			"invalid max connections {%d} for listener {%s}",
+			newListener.MaxConnections,
+			newListener.Name,
+		)
+	}
+
 	// type checks
 	for _, listenerType := range defaults.ListenerTypes {
 		if strings.EqualFold(listenerType.Name, givenListener.Type) {
