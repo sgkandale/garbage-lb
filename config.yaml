@@ -8,7 +8,7 @@ clusters:
       - name: "test-endpoint"
         address: "0.0.0.0"
         protocol: "http"
-        port: 8082
+        port: 8081
 listeners:
   name: "test-listener"
   port: 8080
@@ -21,7 +21,7 @@ listeners:
     name: "test-filter"
     rules:
       - name: "path-rule"
-        type: "host"
+        type: "path"
         value: "/"
         action: "forward"
         enabled: true

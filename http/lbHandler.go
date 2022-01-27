@@ -39,12 +39,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 				// switch over the rule type
 				switch eachRule.Type {
 				case "path":
-					// get provided path length
-					requiredPathLength := len(eachRule.Value)
+					// get provided path
+					requiredPath := eachRule.Value
+					// get the request path
+					requestPath := r.URL.Path
 					// check the incoming path length
-					if len(r.URL.Path) >= requiredPathLength {
+					if len(requestPath) >= len(requiredPath) {
 						// compare incoming path with provided path
-						if r.URL.Path[0:requiredPathLength] == eachRule.Value {
+						if requestPath[0:len(requiredPath)] == requiredPath {
 							// if rule action is reject, return
 							if eachRule.Action == "reject" {
 								rejectionHandler(&w, r)
