@@ -54,6 +54,13 @@ var RuleTypes = map[string][]ruleRequirement{
 			KeyRequired:   false,
 		},
 	},
+	"tcp": {
+		{
+			Name:          "tcp_check",
+			ValueRequired: false,
+			KeyRequired:   false,
+		},
+	},
 }
 
 var RuleActionValues = []string{
