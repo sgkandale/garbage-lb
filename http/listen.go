@@ -19,8 +19,9 @@ func (server *HTTPServer) Listen(wg *sync.WaitGroup, listener *config.Listener) 
 
 	log.Println(
 		fmt.Sprintf(
-			"%s starting at port %d...",
+			"%s of type {%s} starting at port %d...",
 			listener.Name,
+			listener.Type,
 			listener.Port,
 		),
 	)
