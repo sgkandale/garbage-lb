@@ -30,10 +30,11 @@ type Endpoint struct {
 }
 
 type ClusterHealth struct {
-	Status         string `json:"status"`
-	HealthyCount   int    `json:"healthyCount"`
-	UnhealthyCount int    `json:"unhealthyCount"`
-	DegradedCount  int    `json:"degradedCount"`
+	Status         string     `json:"status"`
+	HealthyCount   int        `json:"healthyCount"`
+	UnhealthyCount int        `json:"unhealthyCount"`
+	DegradedCount  int        `json:"degradedCount"`
+	Mutex          sync.Mutex `json:"-"`
 }
 
 type Cluster struct {

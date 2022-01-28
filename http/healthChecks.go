@@ -55,17 +55,16 @@ func PerformHealthChecks(listener *config.Listener) {
 							statusCode, err := pingEndpoint(endpoint)
 							if err != nil {
 								log.Println(err)
-								endpoint.Healthy = false
+								endpoint.SetUnhealthy()
 							} else {
 								if statusCode == goHttp.StatusServiceUnavailable {
 									log.Printf(
 										"endpoint responded with status code %d\n",
 										statusCode,
 									)
-									endpoint.Healthy = false
+									endpoint.SetUnhealthy()
 								} else {
-									endpoint.Healthy = true
-									endpoint.LastSeen = time.Now().Unix()
+									endpoint.SetHealthy()
 								}
 							}
 						}(endpoint)
@@ -94,6 +93,8 @@ func PerformHealthChecks(listener *config.Listener) {
 					if totalEndpoints > 0 {
 						healthyPercentage = float64(healthyEndpoints) / float64(totalEndpoints)
 					}
+					// lock the cluster health
+					rule.TargetCluster.Health.Mutex.Lock()
 					if healthyPercentage < defaults.HealthyClusterThreshold {
 						rule.TargetCluster.Health.Status = "Unhealthy"
 					} else {
@@ -102,6 +103,8 @@ func PerformHealthChecks(listener *config.Listener) {
 					rule.TargetCluster.Health.HealthyCount = healthyEndpoints
 					rule.TargetCluster.Health.UnhealthyCount = unhealthyEndpoints
 					rule.TargetCluster.Health.DegradedCount = degradedCount
+					// unlock the cluster health
+					rule.TargetCluster.Health.Mutex.Unlock()
 				}
 			}
 		}
