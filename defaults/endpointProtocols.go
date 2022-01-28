@@ -8,10 +8,10 @@ func GetEndpointProtocol(protocol string) string {
 		return "http"
 	}
 	if strings.EqualFold(protocol, "tcp") {
-		return "http"
+		return "tcp"
 	}
 	if strings.EqualFold(protocol, "udp") {
-		return "http"
+		return "udp"
 	}
 
 	return ""
