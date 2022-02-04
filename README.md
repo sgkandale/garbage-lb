@@ -36,5 +36,10 @@ Use flag --config to specify the directory where the config.yaml file is located
 - method
 - host
 
-#### Supported Backend Protocols
+#### Supported Backend Cluster Protocols
 - http
+
+#### Supported Cluster Routing Policies
+- round_robin
+- random
+- least_connections
