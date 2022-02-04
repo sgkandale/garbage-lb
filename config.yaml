@@ -1,0 +1,127 @@
+# sample config file
+
+admin:
+  port: 8080
+  enabled: false
+clusters:
+  - name: "path-cluster"
+    policy: "least_connections"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8082
+        protocol: "http"
+      - name: "test-endpoint-2"
+        address: "0.0.0.0"
+        port: 8083
+        protocol: "http"
+  - name: "header-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8084
+        protocol: "http"
+  - name: "cookie-cluster"
+    policy: "random"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8085
+        protocol: "http"
+  - name: "source_ip-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8086
+        protocol: "http"
+  - name: "source_port-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8087
+        protocol: "http"
+  - name: "referrer-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8088
+        protocol: "http"
+  - name: "method-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8089
+        protocol: "http"
+  - name: "host-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8090
+        protocol: "http"
+listeners:
+  - name: "tcp-listener"
+    port: 8081
+    type: "http"
+    tls: false
+    certPath: "./certs/cert.pem"
+    keyPath: "./certs/key.pem"
+    listening: true
+    filter:
+      name: "test-filter"
+      rules:
+        - name: "path-rule"
+          type: "path"
+          value: "/some/path"
+          action: "forward"
+          enabled: true
+          cluster: "path-cluster"
+        - name: "header-rule"
+          type: "header"
+          key: "X-Test-Header"
+          value: "header-value"
+          action: "forward"
+          enabled: true
+          cluster: "header-cluster"
+        - name: "cookie-rule"
+          type: "cookie"
+          key: "X-Test-Cookie"
+          value: "cookie-value"
+          action: "forward"
+          enabled: true
+          cluster: "cookie-cluster"
+        - name: "source_ip-rule"
+          type: "source_ip"
+          value: "127.0.0.1"
+          action: "forward"
+          enabled: true
+          cluster: "source_ip-cluster"
+        - name: "source_port-rule"
+          type: "source_port"
+          value: "8080"
+          action: "forward"
+          enabled: true
+          cluster: "source_port-cluster"
+        - name: "referrer-rule"
+          type: "referrer"
+          value: "http://example.com"
+          action: "forward"
+          enabled: true
+          cluster: "referrer-cluster"
+        - name: "method-rule"
+          type: "method"
+          value: "HEAD"
+          action: "reject"
+          enabled: true
+          cluster: "method-cluster"
+        - name: "host-rule"
+          type: "host"
+          value: "localhost"
+          action: "forward"
+          enabled: true
+          cluster: "host-cluster"
