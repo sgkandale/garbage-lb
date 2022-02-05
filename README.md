@@ -9,7 +9,13 @@ Garbage Load Balancer
     yarn build
 
 #### Build Executable
+    cd cmd/garbagelb
     go build main.go
+    
+or
+
+    go install ./cmd/garbagelb
+
 
 #### Append Static Files
     rice append -i garbagelb/adminServer --exec main.exe
