@@ -30,24 +30,26 @@ func ListListeners() int {
 	}
 
 	for _, listener := range config.Config.Listeners {
-		totalListeners++
-		newListener := Listener{
-			ListenerDetails: listener,
+		if listener.Listening {
+			totalListeners++
+			newListener := Listener{
+				ListenerDetails: listener,
+			}
+			switch listener.Type {
+			case "http":
+				newListener.ServerHandler = &http.Server
+			case "tcp", "tcp4", "tcp6":
+				newListener.ServerHandler = &tcp.Server
+			default:
+				log.Fatal(
+					fmt.Sprintf(
+						"listener type {%s} is not supported",
+						listener.Type,
+					),
+				)
+			}
+			Listeners = append(Listeners, &newListener)
 		}
-		switch listener.Type {
-		case "http":
-			newListener.ServerHandler = &http.Server
-		case "tcp", "tcp4", "tcp6":
-			newListener.ServerHandler = &tcp.Server
-		default:
-			log.Fatal(
-				fmt.Sprintf(
-					"listener type {%s} is not supported",
-					listener.Type,
-				),
-			)
-		}
-		Listeners = append(Listeners, &newListener)
 	}
 
 	return totalListeners

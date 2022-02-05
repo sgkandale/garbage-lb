@@ -9,7 +9,9 @@ func StartListeners(serversWG *sync.WaitGroup) {
 	log.Println("Starting listeners...")
 
 	for _, listener := range Listeners {
-		serversWG.Add(1)
-		listener.ServerHandler.Listen(serversWG, listener.ListenerDetails)
+		if listener.ListenerDetails.Listening {
+			serversWG.Add(1)
+			listener.ServerHandler.Listen(serversWG, listener.ListenerDetails)
+		}
 	}
 }
