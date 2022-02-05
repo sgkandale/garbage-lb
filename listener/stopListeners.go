@@ -6,9 +6,11 @@ import (
 )
 
 func StopListeners(serversWG *sync.WaitGroup) {
-	log.Println("Stopping listeners...")
+	if len(Listeners) > 0 {
+		log.Println("Stopping listeners...")
 
-	for _, listener := range Listeners {
-		listener.ServerHandler.Terminate(serversWG, listener.ListenerDetails)
+		for _, listener := range Listeners {
+			listener.ServerHandler.Terminate(serversWG, listener.ListenerDetails)
+		}
 	}
 }
