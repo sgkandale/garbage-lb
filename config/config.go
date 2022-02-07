@@ -73,3 +73,5 @@ type ConfigStruct struct {
 	Listeners []*Listener `json:"listeners,omitempty"`
 	Clusters  []*Cluster  `json:"clusters,omitempty"`
 }
+
+var Config = &ConfigStruct{}

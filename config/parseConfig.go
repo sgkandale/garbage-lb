@@ -50,5 +50,3 @@ func parseConfig() *ConfigStruct {
 
 	return &readConfig
 }
-
-var parsedConfig = parseConfig()

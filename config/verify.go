@@ -51,4 +51,7 @@ func verify(config *ConfigStruct) *ConfigStruct {
 	return newConfig
 }
 
-var Config = verify(parsedConfig)
+func InitializeConfig() {
+
+	Config = verify(parseConfig())
+}
