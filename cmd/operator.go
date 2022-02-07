@@ -6,12 +6,15 @@ import (
 	"os/signal"
 	"sync"
 
+	"garbagelb/config"
 	"garbagelb/listener"
 )
 
 func operator() {
 
 	log.Println("Starting GarbageLB...")
+
+	config.InitializeConfig()
 
 	listenersWG := &sync.WaitGroup{}
 
