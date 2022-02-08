@@ -29,24 +29,6 @@ type Endpoint struct {
 	Mutex                 sync.Mutex `json:"-"`
 }
 
-type ClusterHealth struct {
-	Status         string     `json:"status"`
-	HealthyCount   int        `json:"healthyCount"`
-	UnhealthyCount int        `json:"unhealthyCount"`
-	DegradedCount  int        `json:"degradedCount"`
-	Mutex          sync.Mutex `json:"-"`
-}
-
-type Cluster struct {
-	Name            string         `json:"name,omitempty"`
-	Policy          string         `json:"policy,omitempty"`
-	Endpoints       []*Endpoint    `json:"endpoints,omitempty"`
-	Health          *ClusterHealth `json:"health"`
-	RREndpointIndex int            `json:"-"`
-	RequestCounter  int64          `json:"requestCounter,omitempty"`
-	Mutex           sync.Mutex     `json:"-"`
-}
-
 type Rule struct {
 	Name          string   `json:"name,omitempty"`
 	Type          string   `json:"type,omitempty"`
