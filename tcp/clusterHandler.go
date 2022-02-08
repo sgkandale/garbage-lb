@@ -12,12 +12,12 @@ func clusterHadler(src net.Conn, cluster *config.Cluster) {
 	// no endpoints in cluster
 	totalEndpoints := len(cluster.Endpoints)
 	if totalEndpoints == 0 {
-		rejectionHandler(src)
+		upstreamErrorHandler(src)
 		return
 	}
 
 	// target endpoint
-	targetEndpoint := 0
+	targetEndpoint := -1
 
 	switch cluster.Policy {
 
@@ -35,12 +35,13 @@ func clusterHadler(src net.Conn, cluster *config.Cluster) {
 
 	default:
 		log.Println("unknown cluster policy : ", cluster.Policy)
+		rejectionHandler(src)
 		return
 	}
 
 	if targetEndpoint == -1 {
 		// all endpoints are unhealthy
-		rejectionHandler(src)
+		upstreamErrorHandler(src)
 		return
 	}
 
