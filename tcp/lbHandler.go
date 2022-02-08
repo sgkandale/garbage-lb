@@ -16,17 +16,11 @@ func (server *TCPServer) LBHandler(src net.Conn) {
 			return
 		} else {
 			// increment active connections count
-			server.Listener.Mutex.Lock()
-			server.Listener.ActiveConnections++
-			server.Listener.Mutex.Unlock()
+			server.Listener.IncrementActiveConnections()
 		}
 
 		// decrement active connections on exit
-		defer func() {
-			server.Listener.Mutex.Lock()
-			server.Listener.ActiveConnections--
-			server.Listener.Mutex.Unlock()
-		}()
+		defer server.Listener.DecrementActiveConnections()
 	}
 
 	if server.Listener.Filter != nil {

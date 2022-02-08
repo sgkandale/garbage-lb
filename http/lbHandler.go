@@ -17,16 +17,12 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 			return
 		} else {
 			// increment active connections count
-			server.Listener.Mutex.Lock()
-			server.Listener.ActiveConnections++
-			server.Listener.Mutex.Unlock()
+			server.Listener.IncrementActiveConnections()
 		}
 
 		// decrement active connections on exit
 		defer func() {
-			server.Listener.Mutex.Lock()
-			server.Listener.ActiveConnections--
-			server.Listener.Mutex.Unlock()
+			server.Listener.DecrementActiveConnections()
 		}()
 	}
 
