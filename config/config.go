@@ -17,18 +17,6 @@ type Listener struct {
 	Mutex               sync.Mutex `json:"-"`
 }
 
-type Endpoint struct {
-	Name                  string     `json:"name,omitempty"`
-	Address               string     `json:"address,omitempty"`
-	Port                  int        `json:"port,omitempty"`
-	Protocol              string     `json:"protocol,omitempty"`
-	Healthy               bool       `json:"healthy,omitempty"`
-	ActiveConnectionCount int        `json:"activeConnectionCount,omitempty"`
-	TotalRequestCount     int        `json:"totalRequestCount,omitempty"`
-	LastSeen              int64      `json:"lastSeen"`
-	Mutex                 sync.Mutex `json:"-"`
-}
-
 type Rule struct {
 	Name          string   `json:"name,omitempty"`
 	Type          string   `json:"type,omitempty"`
