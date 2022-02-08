@@ -8,20 +8,19 @@ import (
 func (server *TCPServer) LBHandler(src net.Conn) {
 
 	// get max connections count
+	// compare active connections count
 	maxAllowedConnections := server.Listener.MaxConnections
-	if maxAllowedConnections > 0 {
-		// compare active connections count
-		if server.Listener.ActiveConnections >= maxAllowedConnections {
-			log.Println("max connections reached")
-			return
-		} else {
-			// increment active connections count
-			server.Listener.IncrementActiveConnections()
-		}
-
-		// decrement active connections on exit
-		defer server.Listener.DecrementActiveConnections()
+	if maxAllowedConnections > 0 && server.Listener.ActiveConnections >= maxAllowedConnections {
+		log.Println("max connections reached")
+		rejectionHandler(src)
+		return
 	}
+
+	// increment active connections count
+	server.Listener.IncrementActiveConnections()
+
+	// decrement active connections on exit
+	defer server.Listener.DecrementActiveConnections()
 
 	if server.Listener.Filter != nil {
 	rulesIterator:
