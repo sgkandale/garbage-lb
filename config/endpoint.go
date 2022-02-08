@@ -25,7 +25,7 @@ func (endpoint *Endpoint) SetUnhealthy() {
 
 func (endpoint *Endpoint) SetHealthy() {
 	endpoint.Mutex.Lock()
-	endpoint.Healthy = false
+	endpoint.Healthy = true
 	endpoint.LastSeen = time.Now().Unix()
 	endpoint.Mutex.Unlock()
 }
