@@ -22,15 +22,15 @@ func clusterHadler(w *goHttp.ResponseWriter, r *goHttp.Request, cluster *config.
 
 	// if csssluster policy is round-robin
 	case "round_robin":
-		targetEndpoint = getCurrentEndpointIndex(cluster)
+		targetEndpoint = cluster.GetCurrentEndpointIndex()
 
 	// if cluster policy is random
 	case "random":
-		targetEndpoint = getRandomEndpointIndex(cluster)
+		targetEndpoint = cluster.GetRandomEndpointIndex()
 
 	// if cluster policy is least_connections
 	case "least_connections":
-		targetEndpoint = getLeastConnectionsEndpointIndex(cluster)
+		targetEndpoint = cluster.GetLeastConnectionsEndpointIndex()
 
 	default:
 		rejectionHandler(w, r)
