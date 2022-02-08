@@ -1,6 +1,7 @@
 package config
 
 import (
+	"log"
 	"math/rand"
 	"sync"
 )
@@ -24,9 +25,11 @@ type Cluster struct {
 }
 
 func (cluster *Cluster) GetCurrentEndpointIndex() int {
+	log.Println("cluster.GetCurrentEndpointIndex()")
 	// iterate over the endpoints to check if all of them are unhealthy
 	allEndpointsUnhealthy := true
 	for _, endpoint := range cluster.Endpoints {
+		log.Println("endpoint : ", endpoint)
 		if endpoint.Healthy {
 			allEndpointsUnhealthy = false
 			break
@@ -35,16 +38,29 @@ func (cluster *Cluster) GetCurrentEndpointIndex() int {
 
 	// if all endpoints are unhealthy, return -1
 	if allEndpointsUnhealthy {
+		log.Println("all endpoints are unhealthy")
 		return -1
 	}
 
 	cluster.IncrementRREndpointIndex()
 
 	if cluster.Endpoints[cluster.RREndpointIndex].Healthy {
+		log.Println("cluster.RREndpointIndex : ", cluster.RREndpointIndex)
 		return cluster.RREndpointIndex
 	} else {
 		return cluster.GetCurrentEndpointIndex()
 	}
+}
+
+func (cluster *Cluster) IncrementRREndpointIndex() {
+	// lock the endpoints
+	cluster.Mutex.Lock()
+	// increment the endpoint index
+	cluster.RREndpointIndex = (cluster.RREndpointIndex + 1) % len(cluster.Endpoints)
+	// increment the request counter
+	cluster.RequestCounter++
+	// unlock the endpoints
+	cluster.Mutex.Unlock()
 }
 
 func (cluster *Cluster) GetRandomEndpointIndex() int {
