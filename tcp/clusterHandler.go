@@ -12,7 +12,7 @@ func clusterHadler(src net.Conn, cluster *config.Cluster) {
 	// no endpoints in cluster
 	totalEndpoints := len(cluster.Endpoints)
 	if totalEndpoints == 0 {
-		log.Println("no endpoints in cluster")
+		rejectionHandler(src)
 		return
 	}
 
