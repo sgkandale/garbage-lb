@@ -60,6 +60,16 @@ var RuleTypes = map[string][]ruleRequirement{
 			ValueRequired: false,
 			KeyRequired:   false,
 		},
+		{
+			Name:          "source_ip",
+			ValueRequired: true,
+			KeyRequired:   false,
+		},
+		{
+			Name:          "source_port",
+			ValueRequired: true,
+			KeyRequired:   false,
+		},
 	},
 }
 
