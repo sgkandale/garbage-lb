@@ -30,8 +30,29 @@ func (server *TCPServer) LBHandler(src net.Conn) {
 			if eachRule.Enabled {
 				// switch over the rule type
 				switch eachRule.Type {
+
 				case "tcp_check":
 					clusterHadler(src, eachRule.TargetCluster)
+					return
+
+				case "source_ip":
+					// get required ip address
+					requiredIP := eachRule.Value
+					// get the source ip address
+					sourceIP := src.RemoteAddr().String()
+					// resolve the ip address
+					sourceIPOnly, _, err := net.SplitHostPort(sourceIP)
+					if err != nil {
+						log.Println("error resolving source ip address : ", err)
+						// continue to next rule
+						continue rulesIterator
+					}
+					// if the ip address matches
+					if requiredIP == sourceIPOnly {
+						clusterHadler(src, eachRule.TargetCluster)
+						return
+					}
+
 				default:
 					log.Printf("unknown rule type {%s}", eachRule.Type)
 					return
