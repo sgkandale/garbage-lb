@@ -64,14 +64,46 @@ clusters:
         address: "0.0.0.0"
         port: 8090
         protocol: "http"
+  - name: "tcp-cluster"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8092
+        protocol: "tcp"
+  - name: "tcp-cluster-2"
+    policy: "round_robin"
+    endpoints:
+      - name: "test-endpoint-1"
+        address: "0.0.0.0"
+        port: 8093
+        protocol: "tcp"
 listeners:
+  - name: "listener-1"
+    port: 8091
+    type: "tcp"
+    listening: true
+    filter:
+      name: "some-name"
+      rules:
+        - name: "two-rule"
+          type: "source_ip"
+          value: "::1"
+          action: "forward"
+          enabled: true
+          cluster: "tcp-cluster-2"
+        - name: "one-rule"
+          type: "tcp_check"
+          action: "forward"
+          enabled: true
+          cluster: "tcp-cluster"
   - name: "tcp-listener"
     port: 8081
     type: "http"
     tls: false
     certPath: "./certs/cert.pem"
     keyPath: "./certs/key.pem"
-    listening: true
+    listening: false
     filter:
       name: "test-filter"
       rules:
