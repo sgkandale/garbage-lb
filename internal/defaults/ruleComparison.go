@@ -18,12 +18,12 @@ var RuleComparisons = []string{
 	"not_required",
 }
 
-func IsComparisonValid(givenComparison, givenValue, incomingValue string) bool {
+func IsRuleComparisonValid(givenComparison, givenValue, incomingValue string) bool {
 	switch givenComparison {
 	case "equals":
-		return strings.EqualFold(givenValue, incomingValue)
+		return givenValue == incomingValue
 	case "not_equals":
-		return !strings.EqualFold(givenValue, incomingValue)
+		return givenValue != incomingValue
 	case "contains":
 		return strings.Contains(incomingValue, givenValue)
 	case "not_contains":

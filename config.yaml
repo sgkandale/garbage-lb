@@ -79,37 +79,40 @@ clusters:
         port: 8093
         protocol: "tcp"
 listeners:
-  - name: "listener-1"
+  - name: "tcp-listener"
     port: 8091
     type: "tcp"
-    listening: true
+    listening: false
     filter:
       name: "some-name"
       rules:
         - name: "two-rule"
           type: "source_ip"
           value: "::1"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "tcp-cluster-2"
         - name: "one-rule"
           type: "tcp_check"
+          comparison: "not_required"
           action: "forward"
           enabled: true
           cluster: "tcp-cluster"
-  - name: "tcp-listener"
+  - name: "http-listener"
     port: 8081
     type: "http"
     tls: false
     certPath: "./certs/cert.pem"
     keyPath: "./certs/key.pem"
-    listening: false
+    listening: true
     filter:
       name: "test-filter"
       rules:
         - name: "path-rule"
           type: "path"
           value: "/some/path"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "path-cluster"
@@ -117,6 +120,7 @@ listeners:
           type: "header"
           key: "X-Test-Header"
           value: "header-value"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "header-cluster"
@@ -124,36 +128,42 @@ listeners:
           type: "cookie"
           key: "X-Test-Cookie"
           value: "cookie-value"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "cookie-cluster"
         - name: "source_ip-rule"
           type: "source_ip"
           value: "127.0.0.1"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "source_ip-cluster"
         - name: "source_port-rule"
           type: "source_port"
           value: "8080"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "source_port-cluster"
         - name: "referrer-rule"
           type: "referrer"
           value: "http://example.com"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "referrer-cluster"
         - name: "method-rule"
           type: "method"
           value: "HEAD"
+          comparison: "equals"
           action: "reject"
           enabled: true
           cluster: "method-cluster"
         - name: "host-rule"
           type: "host"
           value: "localhost"
+          comparison: "equals"
           action: "forward"
           enabled: true
           cluster: "host-cluster"

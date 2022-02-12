@@ -4,6 +4,8 @@ import (
 	"log"
 	goHttp "net/http"
 	"strings"
+
+	"garbagelb/internal/defaults"
 )
 
 func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) {
@@ -36,25 +38,22 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					requiredPath := eachRule.Value
 					// get the request path
 					requestPath := r.URL.Path
-					// check the incoming path length
-					if len(requestPath) >= len(requiredPath) {
-						// compare incoming path with provided path
-						if requestPath[0:len(requiredPath)] == requiredPath {
-							// if rule action is reject, return
-							if eachRule.Action == "reject" {
+					// compare incoming path length
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredPath, requestPath) {
+						// if rule action is reject, return
+						if eachRule.Action == "reject" {
+							rejectionHandler(&w, r)
+							return
+						}
+						// if rule action is forward
+						if eachRule.Action == "forward" {
+							// if match, then forward the request to target cluster
+							if eachRule.TargetCluster != nil {
+								clusterHadler(&w, r, eachRule.TargetCluster)
+								return
+							} else {
 								rejectionHandler(&w, r)
 								return
-							}
-							// if rule action is forward
-							if eachRule.Action == "forward" {
-								// if match, then forward the request to target cluster
-								if eachRule.TargetCluster != nil {
-									clusterHadler(&w, r, eachRule.TargetCluster)
-									return
-								} else {
-									rejectionHandler(&w, r)
-									return
-								}
 							}
 						}
 					}
@@ -67,9 +66,8 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					requiredHeaderValue := eachRule.Value
 					// check the incoming header
 					incomingHeaderValue := r.Header.Get(requiredHeaderName)
-					// if header value matches required value
-					if incomingHeaderValue == requiredHeaderValue {
-						// if rule action is reject, return
+					// compare incoming header
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredHeaderValue, incomingHeaderValue) {
 						if eachRule.Action == "reject" {
 							rejectionHandler(&w, r)
 							return
@@ -110,9 +108,8 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 							return
 						}
 					}
-					// if cookie value matches required value
-					if incomingCookie.Value == requiredCookieValue {
-						// if rule action is reject, return
+					// compare incoming cookie
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredCookieValue, incomingCookie.Value) {
 						if eachRule.Action == "reject" {
 							rejectionHandler(&w, r)
 							return
@@ -142,8 +139,8 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 						// get the ip
 						incomingSourceIP = splittedSourceIP[0]
 					}
-					// check the incoming source ip
-					if incomingSourceIP == requiredSourceIP {
+					// compare incoming source ip
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredSourceIP, incomingSourceIP) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
 							rejectionHandler(&w, r)
@@ -175,8 +172,8 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 						// get the port
 						incomingSourcePort = splittedSourcePort[1]
 					}
-					// check the incoming source port
-					if incomingSourcePort == requiredSourcePort {
+					// compare incoming source port
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredSourcePort, incomingSourcePort) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
 							rejectionHandler(&w, r)
@@ -201,8 +198,8 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					requiredReferrer := eachRule.Value
 					// get incoming referrer
 					incomingReferrer := r.Referer()
-					// check the incoming referrer
-					if incomingReferrer == requiredReferrer {
+					// compare incoming referrer
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredReferrer, incomingReferrer) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
 							rejectionHandler(&w, r)
@@ -227,8 +224,8 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					requiredMethod := eachRule.Value
 					// get incoming method
 					incomingMethod := r.Method
-					// check the incoming method
-					if strings.EqualFold(incomingMethod, requiredMethod) {
+					// compare incoming method
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredMethod, incomingMethod) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
 							rejectionHandler(&w, r)
@@ -253,8 +250,8 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					requiredHost := eachRule.Value
 					// get incoming host
 					incomingHost := r.Host
-					// check the incoming host
-					if strings.EqualFold(incomingHost, requiredHost) {
+					// compare incoming host
+					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredHost, incomingHost) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
 							rejectionHandler(&w, r)
