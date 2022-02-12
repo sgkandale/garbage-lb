@@ -195,6 +195,26 @@ func (configStruct *ConfigStruct) AddListener(givenListener *Listener) error {
 				eachRuleIndex,
 			)
 		}
+		// rule comparison checks
+		for _, eachRuleComparison := range defaults.RuleComparisons {
+			if strings.EqualFold(eachRuleComparison, eachRule.Comparison) {
+				newRule.Comparison = eachRuleComparison
+				break
+			}
+		}
+		if newRule.Comparison == "" {
+			return fmt.Errorf(
+				`unsupported comparison {%s}  ::::
+					trace : 
+					listener {%s}
+					filter {%s}
+					rule {%s}`,
+				eachRule.Comparison,
+				givenListener.Name,
+				givenListener.Filter.Name,
+				eachRule.Name,
+			)
+		}
 		// rule action checks
 		for _, eachAction := range defaults.RuleActionValues {
 			if strings.EqualFold(eachAction, eachRule.Action) {

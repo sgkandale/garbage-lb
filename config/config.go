@@ -5,6 +5,7 @@ type Rule struct {
 	Type          string   `json:"type,omitempty"`
 	Value         string   `json:"value,omitempty"`
 	Key           string   `json:"key,omitempty"`
+	Comparison    string   `json:"comparison,omitempty"`
 	Action        string   `json:"action,omitempty"`
 	Enabled       bool     `json:"enabled,omitempty"`
 	Cluster       string   `json:"cluster,omitempty"`
