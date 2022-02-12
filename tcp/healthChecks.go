@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"garbagelb/config"
-	"garbagelb/defaults"
+	"garbagelb/internal/defaults"
 )
 
 func pingEndpoint(endpoint *config.Endpoint) error {

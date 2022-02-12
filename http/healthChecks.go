@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"garbagelb/config"
-	"garbagelb/defaults"
+	"garbagelb/internal/defaults"
 )
 
 var client = goHttp.Client{

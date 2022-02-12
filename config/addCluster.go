@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"garbagelb/defaults"
+	"garbagelb/internal/defaults"
 )
 
 func (configStruct *ConfigStruct) AddCluster(givenCluster *Cluster) error {
