@@ -31,19 +31,42 @@ Use flag --config to specify the directory where the config.yaml file is located
 
 #### Supported Listener Protocols
 - http
+- tcp
 
 #### Supported Listener Rules
-- path
-- header
-- cookie
-- source_ip
-- source_port
-- referrer/referer
-- method
-- host
+- http
+    - path
+    - header
+    - cookie
+    - source_ip
+    - source_port
+    - referrer/referer
+    - method
+    - host
+
+- tcp
+    - tcp_check
+    - source_ip
+    - source_port
+
+#### Rule Comparison Methods
+- equals
+- not_equals
+- contains
+- not_contains
+- starts_with
+- ends_with
+- matches
+- not_matches
+- greater_than
+- less_than
+- greater_than_or_equal
+- less_than_or_equal
+- not_required
 
 #### Supported Backend Cluster Protocols
-- http
+- http / https
+- tcp (tcp, tcp4, tcp6)
 
 #### Supported Cluster Routing Policies
 - round_robin
