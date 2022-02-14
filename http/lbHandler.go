@@ -23,7 +23,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 	server.Listener.IncrementActiveConnections()
 
 	// decrement active connections on exit
-	server.Listener.DecrementActiveConnections()
+	defer server.Listener.DecrementActiveConnections()
 
 	if server.Listener.Filter != nil {
 	rulesIterator:
