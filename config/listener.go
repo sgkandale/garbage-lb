@@ -14,6 +14,7 @@ type Listener struct {
 	HealthCheckInterval int        `json:"healthCheckInterval,omitempty"`
 	ActiveConnections   int64      `json:"activeConnections,omitempty"`
 	MaxConnections      int64      `json:"maxConnections,omitempty"`
+	PayloadLimit        int64      `json:"payloadLimit,omitempty"`
 	Mutex               sync.Mutex `json:"-"`
 }
 
