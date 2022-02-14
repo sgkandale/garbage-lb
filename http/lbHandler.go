@@ -25,6 +25,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 	// decrement active connections on exit
 	defer server.Listener.DecrementActiveConnections()
 
+	// check payload limit
+	if server.Listener.PayloadLimit > 0 {
+		if r.ContentLength > server.Listener.PayloadLimit {
+			log.Println("payload limit reached")
+			rejectionHandler(&w, r)
+		}
+	}
+
 	if server.Listener.Filter != nil {
 	rulesIterator:
 		// iterate over the rules

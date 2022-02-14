@@ -83,6 +83,7 @@ listeners:
     port: 8091
     type: "tcp"
     listening: false
+    payloadLimit: 0
     filter:
       name: "some-name"
       rules:
@@ -106,6 +107,7 @@ listeners:
     certPath: "./certs/cert.pem"
     keyPath: "./certs/key.pem"
     listening: true
+    payloadLimit: 0
     filter:
       name: "test-filter"
       rules:
