@@ -49,7 +49,11 @@ export default function Settings() {
         </Tabs>
         {
             settingsTabs.map((eachTab, index) => {
-                return <TabPanel value={tab} index={index}>
+                return <TabPanel
+                    value={tab}
+                    index={index}
+                    key={index}
+                >
                     {eachTab.content}
                 </TabPanel>
             })

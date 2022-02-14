@@ -13,7 +13,7 @@ export default function GeneralInfo(props) {
         }
         if (listener.tls) {
             return <Typography variant="body1" color="textSecondary" style={{ paddingLeft: 20 }} >
-                <strong>Enabled : </strong> {listener.tls ? "True" : "False"} <br />
+                <strong>Enabled : </strong>True<br />
                 <strong>CertPath : </strong> {listener.certPath} <br />
                 <strong>KeyPath : </strong> {listener.keyPath} <br />
             </Typography>

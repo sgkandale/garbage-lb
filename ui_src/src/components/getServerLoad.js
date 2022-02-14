@@ -19,9 +19,11 @@ export default function GetServerLoad() {
     }
 
     useEffect(() => {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             fetchData()
         }, 3000)
+
+        return () => clearInterval(intervalId);
     }, [])
 
     return <></>

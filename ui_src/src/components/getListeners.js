@@ -18,9 +18,11 @@ export default function GetListeners() {
     }
 
     useEffect(() => {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             fetchData()
         }, 3000)
+
+        return () => clearInterval(intervalId);
     }, [])
 
     return <></>
