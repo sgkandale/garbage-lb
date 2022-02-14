@@ -15,7 +15,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 	maxAllowedConnections := server.Listener.MaxConnections
 	if maxAllowedConnections > 0 && server.Listener.ActiveConnections >= maxAllowedConnections {
 		log.Println("max connections reached")
-		rejectionHandler(&w, r)
+		rejectTooManyRequests(&w, r)
 		return
 	}
 
@@ -29,7 +29,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 	if server.Listener.PayloadLimit > 0 {
 		if r.ContentLength > server.Listener.PayloadLimit {
 			log.Println("payload limit reached")
-			rejectionHandler(&w, r)
+			rejectPayloadTooLarge(&w, r)
 		}
 	}
 
@@ -50,7 +50,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredPath, requestPath) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -60,7 +60,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -77,7 +77,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					// compare incoming header
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredHeaderValue, incomingHeaderValue) {
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -87,7 +87,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -112,14 +112,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								server.Listener.Name,
 								err.Error(),
 							)
-							rejectionHandler(&w, r)
+							rejectInternalProxyError(&w, r)
 							return
 						}
 					}
 					// compare incoming cookie
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredCookieValue, incomingCookie.Value) {
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -129,7 +129,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -151,7 +151,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredSourceIP, incomingSourceIP) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -161,7 +161,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -184,7 +184,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredSourcePort, incomingSourcePort) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -194,7 +194,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -210,7 +210,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredReferrer, incomingReferrer) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -220,7 +220,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -236,7 +236,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredMethod, incomingMethod) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -246,7 +246,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -262,7 +262,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredHost, incomingHost) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectionHandler(&w, r)
+							rejectNotAppectable(&w, r)
 							return
 						}
 						// if rule action is forward
@@ -272,7 +272,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 								clusterHadler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
-								rejectionHandler(&w, r)
+								rejectUnavailable(&w, r)
 								return
 							}
 						}
@@ -280,7 +280,7 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					// continue to next rule
 					continue rulesIterator
 				default:
-					rejectionHandler(&w, r)
+					rejectInternalProxyError(&w, r)
 					return
 				}
 			}
@@ -289,5 +289,5 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 		}
 	}
 
-	rejectionHandler(&w, r)
+	rejectUnavailable(&w, r)
 }

@@ -11,7 +11,7 @@ func clusterHadler(w *goHttp.ResponseWriter, r *goHttp.Request, cluster *config.
 	// no endpoints in cluster
 	totalEndpoints := len(cluster.Endpoints)
 	if totalEndpoints == 0 {
-		rejectionHandler(w, r)
+		rejectUnavailable(w, r)
 		return
 	}
 
@@ -33,13 +33,13 @@ func clusterHadler(w *goHttp.ResponseWriter, r *goHttp.Request, cluster *config.
 		targetEndpoint = cluster.GetLeastConnectionsEndpointIndex()
 
 	default:
-		rejectionHandler(w, r)
+		rejectInternalProxyError(w, r)
 		return
 	}
 
 	if targetEndpoint == -1 {
 		// all endpoints are unhealthy
-		rejectionHandler(w, r)
+		rejectUnavailable(w, r)
 		return
 	}
 
