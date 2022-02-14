@@ -91,6 +91,17 @@ func (configStruct *ConfigStruct) AddCluster(givenCluster *Cluster) error {
 		newCluster.Endpoints = append(newCluster.Endpoints, newEndpoint)
 	}
 
+	// basic auth checks
+	if givenCluster.BasicAuth != nil {
+		if givenCluster.BasicAuth.Enabled {
+			newBasicAuth, err := givenCluster.getBasicAuth()
+			if err != nil {
+				return err
+			}
+			newCluster.BasicAuth = newBasicAuth
+		}
+	}
+
 	newCluster.Health = &ClusterHealth{
 		Status:         "Unknown",
 		HealthyCount:   0,

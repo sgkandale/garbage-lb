@@ -1,6 +1,7 @@
 package http
 
 import (
+	"net/http"
 	goHttp "net/http"
 )
 
@@ -27,4 +28,9 @@ func rejectNotAcceptable(w *goHttp.ResponseWriter, r *goHttp.Request) {
 func rejectInternalProxyError(w *goHttp.ResponseWriter, r *goHttp.Request) {
 	(*w).WriteHeader(goHttp.StatusInternalServerError)
 	(*w).Write([]byte("Internal Proxy Error"))
+}
+
+func rejectBasicAuthUnauthorized(w *goHttp.ResponseWriter, r *goHttp.Request) {
+	(*w).Header().Set("WWW-Authenticate", `Basic realm="restricted", charset="UTF-8"`)
+	http.Error(*w, "Unauthorized", http.StatusUnauthorized)
 }

@@ -6,6 +6,10 @@ admin:
 clusters:
   - name: "path-cluster"
     policy: "least_connections"
+    basicAuth:
+      enabled: true
+      username: "username"
+      password: "userpass"
     endpoints:
       - name: "test-endpoint-1"
         address: "0.0.0.0"

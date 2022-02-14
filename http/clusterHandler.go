@@ -15,6 +15,12 @@ func clusterHandler(w *goHttp.ResponseWriter, r *goHttp.Request, cluster *config
 		return
 	}
 
+	// basic auth check
+	if !cluster.IsBasicAuthValid(r) {
+		rejectBasicAuthUnauthorized(w, r)
+		return
+	}
+
 	// target endpoint
 	targetEndpoint := -1
 

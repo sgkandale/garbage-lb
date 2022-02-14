@@ -1,7 +1,10 @@
 package config
 
 import (
+	"crypto/sha256"
+	"fmt"
 	"math/rand"
+	"net/http"
 	"sync"
 )
 
@@ -13,9 +16,18 @@ type ClusterHealth struct {
 	Mutex          sync.Mutex `json:"-"`
 }
 
+type BasicAuth struct {
+	Enabled      bool   `json:"enabled,omitempty"`
+	Username     string `json:"username,omitempty"`
+	UsernameHash string `json:"-"`
+	Password     string `json:"password,omitempty"`
+	PasswordHash string `json:"-"`
+}
+
 type Cluster struct {
 	Name            string         `json:"name,omitempty"`
 	Policy          string         `json:"policy,omitempty"`
+	BasicAuth       *BasicAuth     `json:"basicAuth,omitempty"`
 	Endpoints       []*Endpoint    `json:"endpoints,omitempty"`
 	Health          *ClusterHealth `json:"health"`
 	RREndpointIndex int            `json:"-"`
@@ -97,4 +109,74 @@ func (cluster *Cluster) GetLeastConnectionsEndpointIndex() int {
 	}
 
 	return leastConnectionsEndpointIndex
+}
+
+func (cluster *Cluster) getBasicAuth() (*BasicAuth, error) {
+	// username checks
+	if len(cluster.BasicAuth.Username) == 0 {
+		return nil, fmt.Errorf(
+			"basic auth username is empty for cluster {%s}",
+			cluster.Name,
+		)
+	}
+	if len(cluster.BasicAuth.Username) < 4 {
+		return nil, fmt.Errorf(
+			"basic auth username should be atleast 4 characters long for cluster {%s}",
+			cluster.Name,
+		)
+	}
+	if len(cluster.BasicAuth.Username) > 256 {
+		return nil, fmt.Errorf(
+			"basic auth username cannot be longer than 256 characters long for cluster {%s}",
+			cluster.Name,
+		)
+	}
+
+	// password checks
+	if len(cluster.BasicAuth.Password) == 0 {
+		return nil, fmt.Errorf(
+			"basic auth password is empty for cluster {%s}",
+			cluster.Name,
+		)
+	}
+	if len(cluster.BasicAuth.Password) < 4 {
+		return nil, fmt.Errorf(
+			"basic auth password should be atleast 4 characters long for cluster {%s}",
+			cluster.Name,
+		)
+	}
+	if len(cluster.BasicAuth.Password) > 256 {
+		return nil, fmt.Errorf(
+			"basic auth password cannot be longer than 256 characters long for cluster {%s}",
+			cluster.Name,
+		)
+	}
+
+	newBasicAuth := &BasicAuth{
+		Enabled:      cluster.BasicAuth.Enabled,
+		Username:     cluster.BasicAuth.Username,
+		UsernameHash: fmt.Sprintf("%x", sha256.Sum256([]byte(cluster.BasicAuth.Username))),
+		Password:     cluster.BasicAuth.Password,
+		PasswordHash: fmt.Sprintf("%x", sha256.Sum256([]byte(cluster.BasicAuth.Password))),
+	}
+
+	return newBasicAuth, nil
+}
+
+func (cluster *Cluster) IsBasicAuthValid(r *http.Request) bool {
+	if cluster.BasicAuth != nil {
+		if cluster.BasicAuth.Enabled {
+			username, password, ok := r.BasicAuth()
+			if !ok {
+				return false
+			}
+			usernameHash := fmt.Sprintf("%x", sha256.Sum256([]byte(username)))
+			passwordHash := fmt.Sprintf("%x", sha256.Sum256([]byte(password)))
+
+			if usernameHash != cluster.BasicAuth.UsernameHash || passwordHash != cluster.BasicAuth.PasswordHash {
+				return false
+			}
+		}
+	}
+	return true
 }
