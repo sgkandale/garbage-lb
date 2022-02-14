@@ -32,7 +32,7 @@ func (server *TCPServer) LBHandler(src net.Conn) {
 				switch eachRule.Type {
 
 				case "tcp_check":
-					clusterHadler(src, eachRule.TargetCluster)
+					clusterHandler(src, eachRule.TargetCluster)
 					return
 
 				case "source_ip":
@@ -49,7 +49,7 @@ func (server *TCPServer) LBHandler(src net.Conn) {
 					}
 					// if the ip address matches
 					if requiredIP == sourceIPOnly {
-						clusterHadler(src, eachRule.TargetCluster)
+						clusterHandler(src, eachRule.TargetCluster)
 						return
 					}
 
@@ -67,7 +67,7 @@ func (server *TCPServer) LBHandler(src net.Conn) {
 					}
 					// if the port matches
 					if requiredPort == sourcePortOnly {
-						clusterHadler(src, eachRule.TargetCluster)
+						clusterHandler(src, eachRule.TargetCluster)
 						return
 					}
 

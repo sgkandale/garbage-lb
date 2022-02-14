@@ -14,7 +14,6 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 	// compare active connections count
 	maxAllowedConnections := server.Listener.MaxConnections
 	if maxAllowedConnections > 0 && server.Listener.ActiveConnections >= maxAllowedConnections {
-		log.Println("max connections reached")
 		rejectTooManyRequests(&w, r)
 		return
 	}
@@ -26,11 +25,9 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 	defer server.Listener.DecrementActiveConnections()
 
 	// check payload limit
-	if server.Listener.PayloadLimit > 0 {
-		if r.ContentLength > server.Listener.PayloadLimit {
-			log.Println("payload limit reached")
-			rejectPayloadTooLarge(&w, r)
-		}
+	if server.Listener.PayloadLimit > 0 && r.ContentLength > server.Listener.PayloadLimit {
+		rejectPayloadTooLarge(&w, r)
+		return
 	}
 
 	if server.Listener.Filter != nil {
@@ -50,14 +47,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredPath, requestPath) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)
@@ -77,14 +74,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					// compare incoming header
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredHeaderValue, incomingHeaderValue) {
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)
@@ -119,14 +116,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					// compare incoming cookie
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredCookieValue, incomingCookie.Value) {
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)
@@ -151,14 +148,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredSourceIP, incomingSourceIP) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)
@@ -184,14 +181,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredSourcePort, incomingSourcePort) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)
@@ -210,14 +207,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredReferrer, incomingReferrer) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)
@@ -236,14 +233,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredMethod, incomingMethod) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)
@@ -262,14 +259,14 @@ func (server *HTTPServer) LBHandler(w goHttp.ResponseWriter, r *goHttp.Request) 
 					if defaults.IsRuleComparisonValid(eachRule.Comparison, requiredHost, incomingHost) {
 						// if rule action is reject, return
 						if eachRule.Action == "reject" {
-							rejectNotAppectable(&w, r)
+							rejectNotAcceptable(&w, r)
 							return
 						}
 						// if rule action is forward
 						if eachRule.Action == "forward" {
 							// if match, then forward the request to target cluster
 							if eachRule.TargetCluster != nil {
-								clusterHadler(&w, r, eachRule.TargetCluster)
+								clusterHandler(&w, r, eachRule.TargetCluster)
 								return
 							} else {
 								rejectUnavailable(&w, r)

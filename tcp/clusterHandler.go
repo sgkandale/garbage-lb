@@ -7,7 +7,7 @@ import (
 	"garbagelb/config"
 )
 
-func clusterHadler(src net.Conn, cluster *config.Cluster) {
+func clusterHandler(src net.Conn, cluster *config.Cluster) {
 
 	// no endpoints in cluster
 	totalEndpoints := len(cluster.Endpoints)

@@ -6,7 +6,7 @@ import (
 	"garbagelb/config"
 )
 
-func clusterHadler(w *goHttp.ResponseWriter, r *goHttp.Request, cluster *config.Cluster) {
+func clusterHandler(w *goHttp.ResponseWriter, r *goHttp.Request, cluster *config.Cluster) {
 
 	// no endpoints in cluster
 	totalEndpoints := len(cluster.Endpoints)

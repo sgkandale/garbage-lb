@@ -19,7 +19,7 @@ func rejectTooManyRequests(w *goHttp.ResponseWriter, r *goHttp.Request) {
 	(*w).Write([]byte("Too Many Requests"))
 }
 
-func rejectNotAppectable(w *goHttp.ResponseWriter, r *goHttp.Request) {
+func rejectNotAcceptable(w *goHttp.ResponseWriter, r *goHttp.Request) {
 	(*w).WriteHeader(goHttp.StatusNotAcceptable)
 	(*w).Write([]byte("Not Acceptable"))
 }
