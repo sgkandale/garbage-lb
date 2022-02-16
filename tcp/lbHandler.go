@@ -11,7 +11,6 @@ func (server *TCPServer) LBHandler(src net.Conn) {
 	// compare active connections count
 	maxAllowedConnections := server.Listener.MaxConnections
 	if maxAllowedConnections > 0 && server.Listener.ActiveConnections >= maxAllowedConnections {
-		log.Println("max connections reached")
 		rejectionHandler(src)
 		return
 	}

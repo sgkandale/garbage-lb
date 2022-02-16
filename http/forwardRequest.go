@@ -12,10 +12,7 @@ import (
 func forwardRequest(w *goHttp.ResponseWriter, r *goHttp.Request, endpoint *config.Endpoint) {
 
 	// increment active connections counter
-	endpoint.Mutex.Lock()
-	endpoint.ActiveConnectionCount++
-	endpoint.TotalRequestCount++
-	endpoint.Mutex.Unlock()
+	endpoint.IncrementActiveConnectionsCounter()
 
 	// forward request
 	reverseProxy := httputil.NewSingleHostReverseProxy(
@@ -27,7 +24,5 @@ func forwardRequest(w *goHttp.ResponseWriter, r *goHttp.Request, endpoint *confi
 	reverseProxy.ServeHTTP(*w, r)
 
 	// decrement active connections counter
-	endpoint.Mutex.Lock()
-	endpoint.ActiveConnectionCount--
-	endpoint.Mutex.Unlock()
+	endpoint.DecrementActiveConnectionsCounter()
 }

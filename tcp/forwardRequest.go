@@ -12,10 +12,7 @@ import (
 func forwardRequest(src net.Conn, endpoint *config.Endpoint) {
 
 	// increment active connections counter
-	endpoint.Mutex.Lock()
-	endpoint.ActiveConnectionCount++
-	endpoint.TotalRequestCount++
-	endpoint.Mutex.Unlock()
+	endpoint.IncrementActiveConnectionsCounter()
 
 	// forward request
 
@@ -54,7 +51,5 @@ func forwardRequest(src net.Conn, endpoint *config.Endpoint) {
 	<-done
 
 	// decrement active connections counter
-	endpoint.Mutex.Lock()
-	endpoint.ActiveConnectionCount--
-	endpoint.Mutex.Unlock()
+	endpoint.DecrementActiveConnectionsCounter()
 }
