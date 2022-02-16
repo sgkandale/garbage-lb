@@ -29,3 +29,16 @@ func (endpoint *Endpoint) SetHealthy() {
 	endpoint.LastSeen = time.Now().Unix()
 	endpoint.Mutex.Unlock()
 }
+
+func (endpoint *Endpoint) IncrementActiveConnectionsCounter() {
+	endpoint.Mutex.Lock()
+	endpoint.ActiveConnectionCount++
+	endpoint.TotalRequestCount++
+	endpoint.Mutex.Unlock()
+}
+
+func (endpoint *Endpoint) DecrementActiveConnectionsCounter() {
+	endpoint.Mutex.Lock()
+	endpoint.ActiveConnectionCount--
+	endpoint.Mutex.Unlock()
+}
