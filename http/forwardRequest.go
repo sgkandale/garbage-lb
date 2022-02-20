@@ -43,11 +43,15 @@ func forwardRequest(w *goHttp.ResponseWriter, r *goHttp.Request, endpoint *confi
 		goHttp.Error(*w, err.Error(), goHttp.StatusBadGateway)
 		return
 	}
+
+	// copy headers from original request
 	for header, values := range r.Header {
 		for _, value := range values {
 			endpointRequest.Header.Add(header, value)
 		}
 	}
+
+	endpointRequest.URL.RawQuery = r.URL.Query().Encode()
 
 	httpClient := goHttp.Client{}
 
